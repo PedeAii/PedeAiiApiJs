@@ -12,7 +12,7 @@
 
 import express from "express";
 import axios from "axios";
-import { step, step_message } from './flow-steps.js';
+import { step, step_message } from '../flow-steps.js';
 
 const { WEBHOOK_VERIFY_TOKEN, GRAPH_API_TOKEN, PORT } = process.env;
 const app = express();
@@ -22,7 +22,6 @@ var message = {};
 var cep = '';
 
 app.use(express.json());
-
 
 /// POSTS /////////////////////////////////////////////////////// ///
 
