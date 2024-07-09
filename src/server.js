@@ -1,15 +1,16 @@
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+*
+* This source code is licensed under the MIT license found in the
+* LICENSE file in the root directory of this source tree.
+*/
 
-/** 
+/**
  * Developed by: Bruno José
  * version: 3.5
- */
+*/
 
+import 'dotenv/config.js';
 import express from "express";
 import axios from "axios";
 import { step, step_message } from '../flow-steps.js';
