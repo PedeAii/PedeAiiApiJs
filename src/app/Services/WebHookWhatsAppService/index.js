@@ -7,12 +7,13 @@ export class WebHookWhatsAppService {
   current_step = 1;
   message = {};
   cep = '';
-
+  consumerName = null;
 
   async execute(req, res) {
-    const message_properties = req.body.entry?.[0]?.changes?.[0].value;
+    const { value } = req.body.entry?.[0]?.changes[0]
 
-    this.message = message_properties?.messages?.[0];
+    this.message = value?.messages?.[0];
+    this.consumerName = value?.contacts?.[0].profile.name ?? null;
 
     if (this.hasMessageText() || this.isClickedButton()) {
         /// REGISTRO DE LOGS /////////////////////////////////////////////////////// ///
@@ -21,7 +22,7 @@ export class WebHookWhatsAppService {
         console.log(this.message);
         console.log('\ncurrent_step: ' + this.current_step);
 
-        const business_phone_number_id = message_properties?.metadata?.phone_number_id;
+        const business_phone_number_id = value?.metadata?.phone_number_id;
         const payload = await this.getPayloadToSend();
 
         /// REGISTRO DE LOGS /////////////////////////////////////////////////////// ///
@@ -78,7 +79,7 @@ export class WebHookWhatsAppService {
             return payload;
 
         case step.CONFIRM_ADDRESS:
-            this.setCep(message.text.body);
+            this.setCep(this.message.text.body);
             const address = await getAddessByCep();
 
             if (empty(address)) {
@@ -104,7 +105,7 @@ export class WebHookWhatsAppService {
   getMessageThroughStep() {
     const destiny = {
         "messaging_product": "whatsapp",
-        "to": message.from,
+        "to": this.message.from,
     }
 
     this.setCurrentStepByButtonChoice();
@@ -139,9 +140,9 @@ export class WebHookWhatsAppService {
           case step.CHECK_CONFIRM_ADDRESS_BUTTON_CHOICE:
               answer = this.getButtonAnswer();
 
-              if (empty(answer)) {
+              if (!answer) {
                   current_step = step.CONFIRM_ADDRESS;
-                  message.text.body = this.cep;
+                  this.message.text.body = this.cep;
                   break;
               }
 
@@ -159,33 +160,33 @@ export class WebHookWhatsAppService {
   getButtonAnswer() {
       if (!this.isClickedButton()) return undefined;
 
-      switch (message?.interactive?.button_reply?.title) {
+      switch (this.message?.interactive?.button_reply?.title) {
           case "Sim": return "Sim";
           case "Não": return "Não";
       }
   }
 
   hasMessageText() {
-      if (empty(message)) {
+      if (!this.message) {
           return false;
       }
 
-      return message?.type === "text";
+      return this.message?.type === "text";
   }
 
   isClickedButton() {
-      if (empty(message)) {
+      if (!this.message) {
           return false;
       }
 
-      return message?.type === "interactive";
+      return this.message?.type === "interactive";
   }
 
   getReadStatusPayload() {
       return {
           messaging_product: "whatsapp",
           status: "read",
-          message_id: message.id
+          message_id: this.message.id
       }
   }
 
