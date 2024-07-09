@@ -10,7 +10,6 @@
  * version: 3.5
 */
 
-import 'dotenv/config.js';
 import express from "express";
 import axios from "axios";
 import { step, step_message } from '../flow-steps.js';
