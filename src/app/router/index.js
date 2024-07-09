@@ -7,7 +7,7 @@ const { WEBHOOK_VERIFY_TOKEN, GRAPH_API_TOKEN } = process.env;
 export const router = new Router();
 
 const current_step = 1;
-const message = {};
+let message = {};
 let cep = '';
 
 router.post("/webhook", async (req, res) => {
