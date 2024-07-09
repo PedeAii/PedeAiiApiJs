@@ -6,7 +6,7 @@ const { WEBHOOK_VERIFY_TOKEN, GRAPH_API_TOKEN } = process.env;
 
 export const router = new Router();
 
-const current_step = 1;
+let current_step = 1;
 let message = {};
 let cep = '';
 
