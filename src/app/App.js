@@ -1,13 +1,12 @@
 import express, { Router } from 'express';
+import { router } from './router/index.js';
+import 'dotenv/config.js';
+
 
 export class App {
-    CURRENT_STEP = 1;
-    
-    constructor(app = express()) {
-        this._app = app
-        this.current_step = this.CURRENT_STEP;
-        this.message = {};
-        this.cep = '';
+    constructor(app = express(), route = new Router()) {
+        this._route = route;
+        this._app = app;
         this.middleware();
         this.routes();
     }
@@ -15,12 +14,8 @@ export class App {
     middleware() {
         this._app.use(express.json());
     }
-    
-    routes() {
-        const route = new Router();
-        this._app.use(route.get("/", (req, res) => {
-            return res.json({ok: true});
-        }));
+
+    routes() {;
+        this._app.use(this._route.use(router));
     }
 }
-    

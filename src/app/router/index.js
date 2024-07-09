@@ -1,31 +1,16 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+import 'dotenv/config.js';
+import { Router } from 'express';
 
-/**
- * Developed by: Bruno José
- * version: 3.5
-*/
+import { step, step_message } from '../../utils/flow-steps.js';
+const { WEBHOOK_VERIFY_TOKEN, GRAPH_API_TOKEN } = process.env;
 
-import express from "express";
-import axios from "axios";
-import { step, step_message } from '../flow-steps.js';
+export const router = new Router();
 
-const { WEBHOOK_VERIFY_TOKEN, GRAPH_API_TOKEN, PORT } = process.env;
-const app = express();
+const current_step = 1;
+const message = {};
+let cep = '';
 
-var current_step = 1;
-var message = {};
-var cep = '';
-
-app.use(express.json());
-
-/// POSTS /////////////////////////////////////////////////////// ///
-
-app.post("/webhook", async (req, res) => {
+router.post("/webhook", async (req, res) => {
     const message_properties = req.body.entry?.[0]?.changes?.[0].value;
 
     message = message_properties?.messages?.[0];
@@ -67,16 +52,12 @@ app.post("/webhook", async (req, res) => {
     res.sendStatus(200);
 });
 
-
-/// GETS /////////////////////////////////////////////////////// ///
-
-// accepts GET requests at the /webhook endpoint. You need this URL to setup webhook initially.
-// info on verification request payload: https://developers.facebook.com/docs/graph-api/webhooks/getting-started#verification-requests
-app.get("/webhook", (req, res) => {
+router.get("/webhook", (req, res) => {
     const mode = req.query["hub.mode"];
     const token = req.query["hub.verify_token"];
     const challenge = req.query["hub.challenge"];
 
+  console.log(token, WEBHOOK_VERIFY_TOKEN, token === WEBHOOK_VERIFY_TOKEN);
     if (mode === "subscribe" && token === WEBHOOK_VERIFY_TOKEN) {
         res.status(200).send(challenge);
         console.log("Webhook verified successfully!");
@@ -84,14 +65,6 @@ app.get("/webhook", (req, res) => {
         res.sendStatus(403);
     }
 });
-
-app.get("/", (req, res) => {
-    res.send(`<pre>Nothing to see here.
-Checkout README.md to start.</pre>`);
-});
-
-
-/// FUNCTIONS /////////////////////////////////////////////////////// ///
 
 async function getAddessByCep() {
     try {
@@ -258,10 +231,3 @@ function empty(value) {
             return false;
     }
 }
-
-
-/// LISTEN /////////////////////////////////////////////////////// ///
-
-app.listen(PORT, () => {
-    console.log(`Server is listening on port: ${PORT}`);
-});
