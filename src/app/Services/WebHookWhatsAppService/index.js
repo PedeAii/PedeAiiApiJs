@@ -3,6 +3,8 @@ import { Router } from 'express';
 import axios from 'axios';
 import { step, step_message } from '../../../utils/flow-steps.js';
 
+const { GRAPH_API_TOKEN, WEBHOOK_VERIFY_TOKEN } = process.env;
+
 export class WebHookWhatsAppService {
   current_step = 1;
   message = {};
