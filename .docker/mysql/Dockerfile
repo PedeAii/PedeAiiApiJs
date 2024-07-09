@@ -1,3 +1,3 @@
-FROM mysql:8.2.0
+FROM postgres:latest
 
-RUN usermod -u 1000 mysql
+RUN usermod -u 1000 postgres
