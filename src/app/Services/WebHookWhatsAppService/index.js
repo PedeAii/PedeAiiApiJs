@@ -68,14 +68,14 @@ export class WebHookWhatsAppService {
   async getPayloadToSend() {
     var payload = this.getMessageThroughStep();
 
-    switch (current_step) {
+    switch (this.current_step) {
         case step.WELCOME_MESSAGE:
-            current_step = step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE;
+            this.current_step = step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE;
             return payload;
 
         case step.TYPE_THE_CEP:
         case step.TYPE_AN_CORRECT_CEP:
-            current_step = step.CONFIRM_ADDRESS;
+            this.current_step = step.CONFIRM_ADDRESS;
             return payload;
 
         case step.CONFIRM_ADDRESS:
@@ -83,7 +83,7 @@ export class WebHookWhatsAppService {
             const address = await getAddessByCep();
 
             if (empty(address)) {
-                current_step = step.TYPE_AN_CORRECT_CEP;
+                this.current_step = step.TYPE_AN_CORRECT_CEP;
                 return this.getPayloadToSend();
             }
 
@@ -92,12 +92,12 @@ export class WebHookWhatsAppService {
             payload.interactive.body.text = payload.interactive.body.text.replace('{{3}}', address.localidade);
             payload.interactive.body.text = payload.interactive.body.text.replace('{{4}}', address.uf);
             payload.interactive.body.text = payload.interactive.body.text.replace('{{5}}', address.cep);
-            current_step = step.CHECK_CONFIRM_ADDRESS_BUTTON_CHOICE;
+            this.current_step = step.CHECK_CONFIRM_ADDRESS_BUTTON_CHOICE;
 
             return payload;
 
         case step.THANKFUL_MESSAGE:
-            current_step = step.WELCOME_MESSAGE;
+            this.current_step = step.WELCOME_MESSAGE;
             return payload;
     }
   }
@@ -111,7 +111,7 @@ export class WebHookWhatsAppService {
     this.setCurrentStepByButtonChoice();
 
     const message_base = JSON.parse(
-        JSON.stringify(step_message[current_step])
+        JSON.stringify(step_message[this.current_step])
     );
 
     return { ...destiny, ...message_base };
@@ -120,19 +120,19 @@ export class WebHookWhatsAppService {
   setCurrentStepByButtonChoice() {
       var answer = '';
 
-      switch (current_step) {
+      switch (this.current_step) {
           case step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE:
               answer = this.getButtonAnswer();
 
-              if (empty(answer)) {
-                  current_step = step.WELCOME_MESSAGE;
+              if (!answer) {
+                  this.current_step = step.WELCOME_MESSAGE;
                   break;
               }
 
               if (answer === "Sim") {
-                  current_step = step.TYPE_THE_CEP;
+                  this.current_step = step.TYPE_THE_CEP;
               } else {
-                  current_step = step.THANKFUL_MESSAGE;
+                  this.current_step = step.THANKFUL_MESSAGE;
               }
 
               break;
@@ -141,15 +141,15 @@ export class WebHookWhatsAppService {
               answer = this.getButtonAnswer();
 
               if (!answer) {
-                  current_step = step.CONFIRM_ADDRESS;
+                  this.current_step = step.CONFIRM_ADDRESS;
                   this.message.text.body = this.cep;
                   break;
               }
 
               if (this.getButtonAnswer() === "Sim") {
-                  current_step = step.THANKFUL_MESSAGE;
+                  this.current_step = step.THANKFUL_MESSAGE;
               } else {
-                  current_step = step.TYPE_THE_CEP;
+                  this.current_step = step.TYPE_THE_CEP;
               }
 
               break;
