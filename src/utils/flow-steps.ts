@@ -1,4 +1,4 @@
-export const step = Object.freeze({
+export const step:  { [key: string]: any } = Object.freeze({
     WELCOME_MESSAGE: 1,
     CHECK_WELCOME_MESSAGE_BUTTON_CHOICE: 2,
     TYPE_THE_CEP: 3,

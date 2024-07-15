@@ -1,14 +1,9 @@
-import * as typeExpress from "express";
-import { WebHookWhatsAppService } from "../../../Services/WebHookWhatsAppService/index.js";
+import {Request, Response} from "express";
+import { WebHookWhatsAppService } from "../../../Services/WebHookWhatsAppService";
 
 
 class WhatsAppWebHookController {
-  /**
-   *
-   * @param {typeExpress.Request} req
-   * @param {typeExpress.Response} res
-   */
-  async execute(req, res) {
+  async execute(req: Request, res: Response) {
     await new WebHookWhatsAppService().execute(req, res);
   }
 
@@ -17,7 +12,7 @@ class WhatsAppWebHookController {
    * @param {typeExpress.Request} req
    * @param {typeExpress.Response} res
    */
-  async verify(req, res) {
+  async verify(req: Request, res: Response) {
     await new WebHookWhatsAppService().verify(req, res);
   }
 }
