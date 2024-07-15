@@ -5,7 +5,7 @@ import { step, step_message } from '../../../utils/flow-steps.js';
 const { GRAPH_API_TOKEN, WEBHOOK_VERIFY_TOKEN } = process.env;
 
 let cep;
-let current_step;
+let current_step = 0;
 let message;
 let consumerName;
 
@@ -193,7 +193,7 @@ export class WebHookWhatsAppService {
   }
 
   setCep(new_cep) {
-      this.cep = new_cep;
+      cep = new_cep;
   }
 
   empty(value) {
