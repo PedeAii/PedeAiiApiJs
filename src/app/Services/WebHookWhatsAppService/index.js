@@ -217,7 +217,7 @@ async function getAddessByCep() {
     try {
         const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
 
-        if (!empty(response.data.erro)) {
+        if (!response.data.erro) {
             return undefined;
         }
 
