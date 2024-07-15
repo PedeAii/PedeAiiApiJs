@@ -85,7 +85,7 @@ export class WebHookWhatsAppService {
             const address = await getAddessByCep();
 
             if (empty(address)) {
-                this.current_step = step.TYPE_AN_CORRECT_CEP;
+                current_step = step.TYPE_AN_CORRECT_CEP;
                 return this.getPayloadToSend();
             }
 
@@ -94,7 +94,7 @@ export class WebHookWhatsAppService {
             payload.interactive.body.text = payload.interactive.body.text.replace('{{3}}', address.localidade);
             payload.interactive.body.text = payload.interactive.body.text.replace('{{4}}', address.uf);
             payload.interactive.body.text = payload.interactive.body.text.replace('{{5}}', address.cep);
-            this.current_step = step.CHECK_CONFIRM_ADDRESS_BUTTON_CHOICE;
+            current_step = step.CHECK_CONFIRM_ADDRESS_BUTTON_CHOICE;
 
             return payload;
 
@@ -113,7 +113,7 @@ export class WebHookWhatsAppService {
     this.setCurrentStepByButtonChoice();
 
     const message_base = JSON.parse(
-        JSON.stringify(step_message[this.current_step])
+        JSON.stringify(step_message[current_step])
     );
 
     return { ...destiny, ...message_base };
