@@ -1,7 +1,8 @@
 import { App } from './src/app/App.js';
+import { createServer } from 'http';
 
 const { PORT } = process.env;
 
-new App()._app.listen(PORT, () => {
-    console.log(`Server is listening on port: ${PORT}`);
+createServer(new App()._app).listen(PORT, () => {
+    console.log(`Server is listening on: https://localhost:${PORT}/`);
 });

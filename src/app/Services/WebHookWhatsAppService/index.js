@@ -144,7 +144,7 @@ export class WebHookWhatsAppService {
 
               if (!answer) {
                   current_step = step.CONFIRM_ADDRESS;
-                  message.text.body = this.cep;
+                  message.text.body = cep;
                   break;
               }
 
