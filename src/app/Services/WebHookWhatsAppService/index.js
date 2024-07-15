@@ -188,7 +188,7 @@ export class WebHookWhatsAppService {
       return {
           messaging_product: "whatsapp",
           status: "read",
-          message_id: this.message.id
+          message_id: message.id
       }
   }
 
