@@ -107,7 +107,7 @@ export class WebHookWhatsAppService {
   getMessageThroughStep() {
     const destiny = {
         "messaging_product": "whatsapp",
-        "to": this.message.from,
+        "to": message.from,
     }
 
     this.setCurrentStepByButtonChoice();
