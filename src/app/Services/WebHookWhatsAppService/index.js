@@ -1,28 +1,27 @@
 import 'dotenv/config.js';
-import { Router } from 'express';
 import axios from 'axios';
 import { step, step_message } from '../../../utils/flow-steps.js';
 
 const { GRAPH_API_TOKEN, WEBHOOK_VERIFY_TOKEN } = process.env;
 
+let cep;
+let current_step;
+let message;
+let consumerName;
+
 export class WebHookWhatsAppService {
-  current_step = 1;
-  message = {};
-  cep = '';
-  consumerName = null;
-
   async execute(req, res) {
-    const { value } = req.body.entry?.[0]?.changes[0]
+      const { value } = req.body.entry?.[0]?.changes[0];
 
-    this.message = value?.messages?.[0];
-    this.consumerName = value?.contacts?.[0].profile.name ?? null;
+    message = value?.messages?.[0];
+    consumerName = value?.contacts?.[0].profile.name ?? null;
 
     if (this.hasMessageText() || this.isClickedButton()) {
         /// REGISTRO DE LOGS /////////////////////////////////////////////////////// ///
         console.log('\n------------------------------------------------------');
         console.log('Mensagem do chat do WhatsApp');
-        console.log(this.message);
-        console.log('\ncurrent_step: ' + this.current_step);
+        console.log(message);
+        console.log('\ncurrent_step: ' + current_step);
 
         const business_phone_number_id = value?.metadata?.phone_number_id;
         const payload = await this.getPayloadToSend();
@@ -54,10 +53,11 @@ export class WebHookWhatsAppService {
     res.sendStatus(200);
   }
 
-  async verify(req, res) {
+    async verify(req, res) {
     const mode = req.query["hub.mode"];
     const token = req.query["hub.verify_token"];
-    const challenge = req.query["hub.challenge"];
+        const challenge = req.query["hub.challenge"];
+        console.log(WEBHOOK_VERIFY_TOKEN)
 
     if (mode !== "subscribe" && token !== WEBHOOK_VERIFY_TOKEN) {
       res.sendStatus(403);
@@ -70,18 +70,18 @@ export class WebHookWhatsAppService {
   async getPayloadToSend() {
     var payload = this.getMessageThroughStep();
 
-    switch (this.current_step) {
+    switch (current_step) {
         case step.WELCOME_MESSAGE:
-            this.current_step = step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE;
+            current_step = step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE;
             return payload;
 
         case step.TYPE_THE_CEP:
         case step.TYPE_AN_CORRECT_CEP:
-            this.current_step = step.CONFIRM_ADDRESS;
+            current_step = step.CONFIRM_ADDRESS;
             return payload;
 
         case step.CONFIRM_ADDRESS:
-            this.setCep(this.message.text.body);
+            this.setCep(message.text.body);
             const address = await getAddessByCep();
 
             if (empty(address)) {
@@ -99,7 +99,7 @@ export class WebHookWhatsAppService {
             return payload;
 
         case step.THANKFUL_MESSAGE:
-            this.current_step = step.WELCOME_MESSAGE;
+            current_step = step.WELCOME_MESSAGE;
             return payload;
     }
   }
@@ -122,19 +122,19 @@ export class WebHookWhatsAppService {
   setCurrentStepByButtonChoice() {
       var answer = '';
 
-      switch (this.current_step) {
+      switch (current_step) {
           case step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE:
               answer = this.getButtonAnswer();
 
               if (!answer) {
-                  this.current_step = step.WELCOME_MESSAGE;
+                  current_step = step.WELCOME_MESSAGE;
                   break;
               }
 
               if (answer === "Sim") {
-                  this.current_step = step.TYPE_THE_CEP;
+                current_step = step.TYPE_THE_CEP;
               } else {
-                  this.current_step = step.THANKFUL_MESSAGE;
+                  current_step = step.THANKFUL_MESSAGE;
               }
 
               break;
@@ -143,15 +143,15 @@ export class WebHookWhatsAppService {
               answer = this.getButtonAnswer();
 
               if (!answer) {
-                  this.current_step = step.CONFIRM_ADDRESS;
-                  this.message.text.body = this.cep;
+                  current_step = step.CONFIRM_ADDRESS;
+                  message.text.body = this.cep;
                   break;
               }
 
               if (this.getButtonAnswer() === "Sim") {
-                  this.current_step = step.THANKFUL_MESSAGE;
+                  current_step = step.THANKFUL_MESSAGE;
               } else {
-                  this.current_step = step.TYPE_THE_CEP;
+                  current_step = step.TYPE_THE_CEP;
               }
 
               break;
@@ -162,26 +162,26 @@ export class WebHookWhatsAppService {
   getButtonAnswer() {
       if (!this.isClickedButton()) return undefined;
 
-      switch (this.message?.interactive?.button_reply?.title) {
+      switch (message?.interactive?.button_reply?.title) {
           case "Sim": return "Sim";
           case "Não": return "Não";
       }
   }
 
   hasMessageText() {
-      if (!this.message) {
+      if (!message) {
           return false;
       }
 
-      return this.message?.type === "text";
+      return message?.type === "text";
   }
 
   isClickedButton() {
-      if (!this.message) {
+      if (!message) {
           return false;
       }
 
-      return this.message?.type === "interactive";
+      return message?.type === "interactive";
   }
 
   getReadStatusPayload() {
