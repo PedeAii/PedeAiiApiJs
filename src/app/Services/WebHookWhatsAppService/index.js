@@ -84,7 +84,7 @@ export class WebHookWhatsAppService {
             this.setCep(message.text.body);
             const address = await getAddessByCep();
 
-            if (empty(address)) {
+            if (this.empty(address)) {
                 current_step = step.TYPE_AN_CORRECT_CEP;
                 return this.getPayloadToSend();
             }
