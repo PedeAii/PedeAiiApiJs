@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { comparePassword } from '../../../utils/crypto.js'
+import { comparePassword } from '../../../utils/Cryptography/crypto.js'
 
 export class AuthUserService {
   // async execute(email: string, password: string) {
