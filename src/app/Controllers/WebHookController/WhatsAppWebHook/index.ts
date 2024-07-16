@@ -3,14 +3,19 @@ import { WebHookWhatsAppService } from "../../../Services/WebHookWhatsAppService
 
 
 class WhatsAppWebHookController {
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+  */
   async execute(req: Request, res: Response) {
     await new WebHookWhatsAppService().execute(req, res);
   }
 
   /**
    *
-   * @param {typeExpress.Request} req
-   * @param {typeExpress.Response} res
+   * @param {Request} req
+   * @param {Response} res
    */
   async verify(req: Request, res: Response) {
     await new WebHookWhatsAppService().verify(req, res);

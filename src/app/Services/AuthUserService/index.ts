@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { comparePassword } from '../../../utils/Cryptography/crypto.js'
+import { Cryptography } from '../../../utils/Cryptography/crypto.js'
 
 export class AuthUserService {
   // async execute(email: string, password: string) {
@@ -8,7 +8,7 @@ export class AuthUserService {
   //   if (!user) {
   //     throw new Error("User or password invalid");
   //   }
-  //   const passwordMatch = await comparePassword(password, user.password);
+  //   const passwordMatch = await Cryptography.comparePassword(password, user.password);
 
   //   if (!passwordMatch) {
   //     throw new Error("User or password invalid");

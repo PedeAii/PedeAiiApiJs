@@ -1,8 +1,8 @@
-version: '3'
+version: "3"
 
 services:
   app:
-    container_name: pizzaria-api
+    container_name: pedeaii-api
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -12,9 +12,11 @@ services:
       - .:/home/node/app
     depends_on:
       - db
+    networks:
+      - pedeaii
 
   db:
-    container_name: pizzaria-db
+    container_name: pedeaii-db
     build: .docker/postgres
     image: postgres
     ports:
@@ -24,8 +26,16 @@ services:
     volumes:
       - .docker/dbdata:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_DB=pizzaria
+      - POSTGRES_USER=pedeaii
+      - POSTGRES_DB=pedeaii
       - POSTGRES_PASSWORD=123456
+    networks:
+      - pedeaii
+
 volumes:
   db-data: {}
+
+networks:
+  default:
+    external: true
+    name: pedeaii

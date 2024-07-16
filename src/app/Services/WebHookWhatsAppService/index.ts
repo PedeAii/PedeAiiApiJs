@@ -5,9 +5,7 @@ import { Request, Response } from 'express';
 
 const { GRAPH_API_TOKEN, WEBHOOK_VERIFY_TOKEN } = process.env;
 
-let cep = '';
-let current_step = 1;
-let message: {
+interface Chat {
     id?: string;
     from?: string;
     text?: {
@@ -23,7 +21,11 @@ let message: {
         payload: string;
     };
     type?: string;
-} = {};
+};
+
+let cep = '';
+let current_step = 1;
+let message: Chat = {};
 let consumerName = '';
 
 export class WebHookWhatsAppService {
