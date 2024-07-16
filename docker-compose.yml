@@ -36,6 +36,5 @@ volumes:
   db-data: {}
 
 networks:
-  default:
-    external: true
-    name: pedeaii
+  pedeaii:
+    driver: bridge
