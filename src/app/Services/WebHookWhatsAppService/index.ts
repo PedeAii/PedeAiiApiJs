@@ -1,16 +1,35 @@
 import 'dotenv/config.js';
 import axios from 'axios';
-import { step, step_message } from '../../../utils/flow-steps.js';
+import { step, step_message } from '../../../utils/flow-steps';
+import { Request, Response } from 'express';
 
 const { GRAPH_API_TOKEN, WEBHOOK_VERIFY_TOKEN } = process.env;
 
+interface Chat {
+    id?: string;
+    from?: string;
+    text?: {
+        body: string;
+    };
+    interactive?: {
+        button_reply?: {
+            title: string;
+            payload: string;
+        };
+    };
+    quick_reply?: {
+        payload: string;
+    };
+    type?: string;
+};
+
 let cep = '';
 let current_step = 1;
-let message = {};
+let message: Chat = {};
 let consumerName = '';
 
 export class WebHookWhatsAppService {
-  async execute(req, res) {
+  async execute(req: Request, res: Response) {
       const { value } = req.body.entry?.[0]?.changes[0];
 
     message = value?.messages?.[0];
@@ -53,7 +72,7 @@ export class WebHookWhatsAppService {
     res.sendStatus(200);
   }
 
-    async verify(req, res) {
+    async verify(req: Request, res: Response) {
     const mode = req.query["hub.mode"];
     const token = req.query["hub.verify_token"];
         const challenge = req.query["hub.challenge"];
@@ -120,7 +139,7 @@ export class WebHookWhatsAppService {
   }
 
   setCurrentStepByButtonChoice() {
-      var answer = '';
+      var answer: string|undefined = '';
 
       switch (current_step) {
           case step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE:
@@ -192,11 +211,27 @@ export class WebHookWhatsAppService {
       }
   }
 
-  setCep(new_cep) {
+  setCep(new_cep: {
+    id?: string;
+    from?: string;
+    text?: {
+        body: string;
+    };
+    interactive?: {
+        button_reply?: {
+            title: string;
+            payload: string;
+        };
+    };
+    quick_reply?: {
+        payload: string;
+    };
+    type?: string;
+}) {
       cep = new_cep;
   }
 
-  empty(value) {
+  empty(value: any) {
       switch (value) {
           case null:
           case undefined:
@@ -222,7 +257,7 @@ async function getAddessByCep() {
         }
 
         return response.data;
-    } catch (error) {
+    } catch (error: any) {
         if (error.response.status === 400) {
             return undefined;
         }
