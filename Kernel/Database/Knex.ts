@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import knex, { Knex } from 'knex';
-import { config } from '../../knexfile';
+import config from '../../knexfile';
 
 export class Database {
   private static instance: Knex;
@@ -15,8 +15,7 @@ export class Database {
   }
     
     public static getTable(tableName: string) {
-        const instance = Database.getInstance();
-        return instance.table(tableName);
+        return Database.getInstance().table(tableName);
     }
 }
 
