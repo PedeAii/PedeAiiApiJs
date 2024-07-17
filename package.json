@@ -1,11 +1,11 @@
 {
     "name": "pedeaii_api",
     "version": "1.0.0",
-    "description": "An example WhatsApp webhook server https://developers.facebook.com/docs/whatsapp/sample-app-endpoints",
+    "description": "An whatsapp bot for PedeAii",
     "main": "index.js",
     "scripts": {
         "start": "npm build && node dist/index.js",
-        "dev": "ts-node-dev --respawn --transpile-only index.ts",
+        "dev": "tsx watch index.ts",
         "watch": "tsx watch index.ts",
         "knex": "npx knex --knexfile .knexfile.ts",
         "migrate:make": "npm run knex migrate:make",

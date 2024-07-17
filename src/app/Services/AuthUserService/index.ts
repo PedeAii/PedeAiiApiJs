@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { Cryptography } from '../../../utils/Cryptography/crypto.js'
+import { Cryptography } from '../../../utils/Cryptography/Cryptography.js'
 
 export class AuthUserService {
   // async execute(email: string, password: string) {

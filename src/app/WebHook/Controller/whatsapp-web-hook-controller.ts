@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
+import { TextMessagesRepository } from "Kernel/Repositories/Messages/TextMessagesRepository";
 
 export class WhatsAppWebHookController {
-    constructor() {}
+    constructor() { }
 
     async execute(req: Request, res: Response) {
-        return res.json({'teste': 'chegou'})
+        return res.status(200).json({ ok: true });
     }
 }
