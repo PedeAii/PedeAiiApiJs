@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { TextMessagesRepository } from "Kernel/Repositories/Messages/TextMessagesRepository";
+import { TextMessagesRepository } from "src/app/Message/Repositories/Messages/TextMessagesRepository";
 
 export class MessageController {
     constructor() { }
