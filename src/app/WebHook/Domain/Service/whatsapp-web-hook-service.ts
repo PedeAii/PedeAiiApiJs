@@ -1,6 +1,6 @@
 import 'dotenv/config.js';
 import axios from 'axios';
-import { step, step_message } from '../../../utils/flow-steps';
+import { step, step_message } from '../../../../utils/flow-steps';
 import { Request, Response } from 'express';
 
 const { GRAPH_API_TOKEN, WEBHOOK_VERIFY_TOKEN } = process.env;
@@ -28,7 +28,7 @@ let current_step = 1;
 let message: Chat = {};
 let consumerName = '';
 
-export class WebHookWhatsAppService {
+export class WhatsAppWebHookService {
   async execute(req: Request, res: Response) {
       const { value } = req.body.entry?.[0]?.changes[0];
 
@@ -120,7 +120,10 @@ export class WebHookWhatsAppService {
         case step.THANKFUL_MESSAGE:
             current_step = step.WELCOME_MESSAGE;
             return payload;
+            
     }
+
+    return null;
   }
 
   getMessageThroughStep() {

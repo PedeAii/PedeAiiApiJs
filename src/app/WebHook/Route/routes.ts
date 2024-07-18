@@ -4,6 +4,9 @@ import { WhatsAppWebHookController } from "../Controller/whatsapp-web-hook-contr
 const whatsAppWebHookRouter = Router();
 
 const whatsAppWebHook = new WhatsAppWebHookController();
-whatsAppWebHookRouter.get('/webhook/message', whatsAppWebHook.execute);
+whatsAppWebHookRouter.get('/webhook/message', whatsAppWebHook.test);
+
+whatsAppWebHookRouter.get('/webhook', whatsAppWebHook.verify);
+whatsAppWebHookRouter.post('/webhook', whatsAppWebHook.execute);
 
 export { whatsAppWebHookRouter };
