@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { HttpException } from "Kernel/http/HttpException";
+import { HttpException } from "Kernel/Http/HttpException";
 import { parse, StackFrame } from "stack-trace";
 
 export default class Trace {
