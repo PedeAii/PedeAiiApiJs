@@ -3,8 +3,13 @@ import { IntegratorAuthDTO } from "../../Controller/dto/integrator-dto";
 import { Integrator } from "../Entity/integrator";
 import { UpdatedAt } from "src/utils/Date/updated-at";
 import { IntegratorId } from "../Entity/integrator-id";
+import { IntegratorRepository } from "../Repository/integrator-repository";
 
 export class IntegratorService {
+
+    private integratorRepository: IntegratorRepository
+
+    constructor() {}
 
     async auth(integratorAuthDTO: IntegratorAuthDTO) {
         const integrator = new Integrator(
@@ -17,7 +22,11 @@ export class IntegratorService {
 
         integrator.integratorVelidate();
 
+        const currentIntegrator: Integrator = await this.getByUsername(integrator.username);
+
     }
 
-    async get
+    private async getByUsername(username: string|null) {
+        return await this.integratorRepository.getByUsername(username);
+    }
 }
