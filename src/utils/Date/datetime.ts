@@ -3,8 +3,8 @@ import moment from "moment";
 export class Datetime {
     private date: moment.Moment;
 
-    constructor(datetime: string = this.date.format()) {
-        this.date = moment(datetime)
+    constructor(datetime?: string) {
+        this.date = datetime ? moment(datetime) : moment()
     }
 
     public toBrazilian(): string {

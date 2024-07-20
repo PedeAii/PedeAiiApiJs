@@ -13,13 +13,15 @@ export class IntegratorController {
 
     public authAction = async (req: Request, res: Response) => {
         const { username, password } = req.body
-
+        console.log(username);
+        console.log(password);
+        
         const output = await this.integratorService.auth(
             new IntegratorAuthDTO(username, password)
         )
         
-        const success = new Success(output);
+        //const success = new Success(output);
 
-        return res.status(200).json(success.render());
+        //return res.status(200).json(success.render());
     }
 }

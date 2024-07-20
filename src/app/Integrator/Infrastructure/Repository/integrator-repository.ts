@@ -6,7 +6,11 @@ import { IntegratorRepository as IintegratorRepository } from "../../Domain/Repo
 export class IntegratorRepository implements IintegratorRepository {
     protected tableName = 'integrator';
 
-    getByUsername(username: string | null): Promise<Integrator> {
-        return Database.getInstance().select('*').from(this.tableName).where({ username }).first();
+    getByUsername(username: string | null): Promise<Integrator> {        
+        return Database.getInstance()
+        .select('*')
+        .from(this.tableName)
+        .where({ username })
+        .first();
     }
 }
