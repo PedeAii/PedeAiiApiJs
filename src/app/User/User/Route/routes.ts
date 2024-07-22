@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { UserAuthController } from "../Controller/user-auth-controller";
 
-const userAuthRouter = Router();
+const userRouter = Router();
 
 const userAuthController = new UserAuthController();
-userAuthRouter.get('/api/user/auth', userAuthController.execute);
+userRouter.get('/api/user/auth', userAuthController.execute);
 
-export { userAuthRouter };
+export { userRouter };
