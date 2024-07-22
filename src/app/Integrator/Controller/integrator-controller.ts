@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { IntegratorService } from "../Domain/Service/integrator-service";
-import { IntegratorAuthDTO } from "./dto/integrator-dto";
+import { IntegratorAuthDTO } from "./dto/integrator-auth-dto";
 import { Success } from "../../../../Kernel/Http/Success"
 import { Cryptography } from "src/utils/Cryptography/Cryptography";
 

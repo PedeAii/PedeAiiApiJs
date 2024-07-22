@@ -4,12 +4,13 @@ import { IntegratorRepository as IintegratorRepository } from "../../Domain/Repo
 import { IntegratorId } from "../../Domain/Entity/integrator-id";
 import { CreatedAt } from "src/utils/Date/created-at";
 import { UpdatedAt } from "src/utils/Date/updated-at";
+import { NotFound } from "Kernel/Http/NotFound";
 
 
 export class IntegratorRepository implements IintegratorRepository {
     protected tableName = 'integrator';
 
-    async getByUsername(username: string): Promise<Integrator | undefined> {
+    async getByUsername(username: string): Promise<Integrator> {
         const result = await Database.getInstance()
             .select('*')
             .from(this.tableName)
@@ -17,7 +18,7 @@ export class IntegratorRepository implements IintegratorRepository {
             .first();
 
         if (!result) {
-            return undefined;
+            throw new NotFound(['Integrator not found']);
         }
 
         return this.getIntegrator(result);

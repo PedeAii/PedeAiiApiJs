@@ -1,5 +1,5 @@
 import { CreatedAt } from "src/utils/Date/created-at";
-import { IntegratorAuthDTO } from "../../Controller/dto/integrator-dto";
+import { IntegratorAuthDTO } from "../../Controller/dto/integrator-auth-dto";
 import { Integrator } from "../Entity/integrator";
 import { UpdatedAt } from "src/utils/Date/updated-at";
 import { IntegratorId } from "../Entity/integrator-id";
