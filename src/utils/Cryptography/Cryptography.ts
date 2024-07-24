@@ -1,9 +1,6 @@
 import { randomBytes, scrypt, timingSafeEqual } from 'node:crypto';
 import { promisify } from 'util';
 
-const scryptAsync = promisify(scrypt);
-
-
 export class Cryptography {
 
   private static timestamp = Date.now() / 1000;
@@ -30,18 +27,18 @@ export class Cryptography {
      * @param {string} password senha do banco
      * @returns boolean
      */
-    public static async comparePassword(userPassword: string, hashedPassword: string): Promise<boolean> {
-      try {
-        const [salt, storedHash] = hashedPassword.split('@');
-        const derivedKey = await scryptAsync(userPassword, salt, 64);
-        const hashedBuffer = Buffer.from(derivedKey.toString('base64'), 'base64');
-        const keyBuffer = Buffer.from(storedHash, 'base64');
-  
-        return timingSafeEqual(hashedBuffer, keyBuffer);
-      } catch (error) {
-        console.error('Error comparing password:', error);
-        throw new Error('Could not compare password');
-      }
+    public static async comparePassword(userPassword: string, password: string) {
+      const [salt, key] = userPassword.split('@');
+      const hashedBuffer = await new Promise<Buffer>((resolve, reject) => {
+        scrypt(password, salt, 64, (err, derivedKey) => {
+          if (err) reject(err);
+          resolve(derivedKey);
+        });
+      });
+    
+      const keyBuffer = Buffer.from(key, 'base64');
+    
+      return timingSafeEqual(hashedBuffer, keyBuffer);
     }
   
   /**

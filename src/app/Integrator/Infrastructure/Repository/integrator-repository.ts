@@ -6,11 +6,15 @@ import { CreatedAt } from "src/utils/Date/created-at";
 import { UpdatedAt } from "src/utils/Date/updated-at";
 
 
-export class IntegratorRepository implements IintegratorRepository {
+export class IntegratorRepository extends Database implements IintegratorRepository {
+    constructor() {
+        super()
+    }
+
     protected tableName = 'integrator';
 
     async getByUsername(username: string): Promise<Integrator | undefined> {
-        const result = await Database.getInstance()
+        const result = await this.getInstance()
             .select('*')
             .from(this.tableName)
             .where({ username })

@@ -1,36 +1,37 @@
 import { Database } from "Kernel/Database/Knex";
-import { TextMessagesEntity } from "Kernel/Entities/TextMessageEntity/TextMessageEntity";
+import { TextMessagesEntity } from "src/app/Message/Domain/Entity/TextMessageEntity";
 import { Cryptography } from "src/utils/Cryptography/Cryptography";
+import { IMessageService } from "../../Domain/Services/IMessageService";
 
 
-export class TextMessagesRepository {
+export class TextMessagesRepository extends Database implements IMessageService {
     protected tableName = 'text_messages';
 
-    constructor() {}
+    constructor() {super();}
 
     public async getMessages(): Promise<TextMessagesEntity[]> {
-        return Database.getInstance().select('ulid', 'message').from(this.tableName);
+        return this.getInstance().select('ulid', 'message').from(this.tableName).where({ deleted_at: null });
     }
 
-    public async getMessagesByUlid(ulid: string): Promise<TextMessagesEntity> {
-        return Database.getInstance().select('ulid', 'message').from(this.tableName).where({ ulid }).first();
+    public async getMessagesById(ulid: string): Promise<TextMessagesEntity> {
+        return this.getInstance().select('ulid', 'message').from(this.tableName).where({ ulid, deleted_at: null }).first();
     }
 
-    public async create(messages: TextMessagesEntity): Promise<TextMessagesEntity> {
-        const [newEntity]: TextMessagesEntity[] = await Database.getInstance().insert({
+    public async create(message: TextMessagesEntity): Promise<TextMessagesEntity> {
+        const [newEntity]: TextMessagesEntity[] = await this.getInstance().insert({
             ulid: Cryptography.ulid(),
-            ...messages
+            ...message
         }).into(this.tableName).returning(['ulid', 'message']);
 
         return newEntity;
     }
 
-    public async update(ulid: string, messages: Partial<TextMessagesEntity>): Promise<TextMessagesEntity> {
-        return Database.getInstance().update(messages).from(this.tableName).where({ ulid }).returning('*').first();
+    public async update(ulid: string, message: Partial<TextMessagesEntity>): Promise<TextMessagesEntity> {
+        return this.getInstance().update(message).from(this.tableName).where({ ulid }).returning('*').first();
     }
 
     public async delete(ulid: string): Promise<void> {
-        return Database.getInstance().from(this.tableName).where('ulid', ulid).update({ deleted_at: new Date() });
+        return this.getInstance().from(this.tableName).where('ulid', ulid).update({ deleted_at: new Date() });
     }
 }
 

@@ -53,7 +53,6 @@ export class IntegratorService {
         const token = sign({}, process.env.APP_SECRET as string, {
             subject: integrator.id.getId?.toString(),
             expiresIn: "3h",
-            
         });
 
         return token;
