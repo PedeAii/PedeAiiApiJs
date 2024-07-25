@@ -1,10 +1,11 @@
-import { Database } from "Kernel/Database/Knex";
+import { Database } from "../../../../../Kernel/Database/Knex";
 import { TextMessagesEntity } from "src/app/Message/Domain/Entity/TextMessageEntity";
-import { Cryptography } from "src/utils/Cryptography/Cryptography";
-import { IMessageService } from "../../Domain/Services/IMessageService";
+import { Cryptography } from "../../../../utils/Cryptography/Cryptography";
+import { injectable } from "tsyringe";
+import { ITextMessagesRepository } from "./ITextMessageRepository";
 
-
-export class TextMessagesRepository extends Database implements IMessageService {
+@injectable()
+export class TextMessagesRepository extends Database implements ITextMessagesRepository {
     protected tableName = 'text_messages';
 
     constructor() {super();}

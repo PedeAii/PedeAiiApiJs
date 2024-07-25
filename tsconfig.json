@@ -11,7 +11,6 @@
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     "types": [
       "node",
-      "jest"
     ],                                      /* Specify type package names to be included without being referenced in a source file. */
     "resolveJsonModule": true,                        /* Enable importing .json files. */
     "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
@@ -26,7 +25,7 @@
     "noFallthroughCasesInSwitch": true,               /* Enable error reporting for fallthrough cases in switch statements. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*", "Kernel/**/*", "tests/**/*.ts"],
+  "include": ["src/**/*", "Kernel/**/*", "tests/**/*.ts", "./index.ts", "./knexfile.ts"],
 	"exclude": ["node_modules", "dist"]
   //"exclude": ["./dist", "**/*.test.*", "**/mocks/*", "**/tests/*"]
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm build && node dist/index.js",
     "dev": "tsx watch index.ts",
-    "watch": "tsx watch index.ts",
+    "watch": "ts-node-dev --respawn --transpile-only index.ts",
     "knex": "npx knex --knexfile knexfile.ts",
     "migrate:make": "npm run knex migrate:make",
     "migrate:up": "npm run knex migrate:up",

@@ -1,19 +1,28 @@
+import { inject, injectable } from "tsyringe";
 import { TextMessagesEntity } from "../Entity/TextMessageEntity";
-import { IMessageService } from "./IMessageService";
+import { ITextMessagesRepository } from "../../Infrastructure/Repositories/ITextMessageRepository";
 
-export class MessageService implements IMessageService {
-    constructor(private readonly messageRepository: IMessageService) {}
-    create(message: TextMessagesEntity): Promise<TextMessagesEntity> {
-        throw new Error("Method not implemented.");
+@injectable()
+export class MessageService implements ITextMessagesRepository {
+    constructor(
+        @inject('ITextMessagesRepository') private readonly messageRepository: ITextMessagesRepository
+    ) { }
+    async create(message: TextMessagesEntity): Promise<TextMessagesEntity> {
+        return this.messageRepository.create(message);
     }
-    getMessages(): Promise<TextMessagesEntity[]> {
-        throw new Error("Method not implemented.");
+    async getMessages(): Promise<TextMessagesEntity[]> {
+        return this.messageRepository.getMessages();
     }
-    getMessagesById(id: string): Promise<TextMessagesEntity> {
-        throw new Error("Method not implemented.");
+
+    async getMessagesById(id: string): Promise<TextMessagesEntity> {
+        return this.messageRepository.getMessagesById(id);
     }
-    update(id: string, message: Partial<TextMessagesEntity>): Promise<TextMessagesEntity> {
-        throw new Error("Method not implemented.");
+
+    async update(id: string, message: Partial<TextMessagesEntity>): Promise<TextMessagesEntity> {
+        return this.messageRepository.update(id, message);
     }
- 
+
+    async delete(ulid: string): Promise<void> {
+        return this.messageRepository.delete(ulid);
+    }
 }
