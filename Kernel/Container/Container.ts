@@ -1,19 +1,8 @@
-type Constructor<T> = new (...args: any[]) => T;
+import 'reflect-metadata'
+import { container } from "tsyringe";
+import { IMessageService } from "src/app/Message/Domain/Services/IMessageService";
+import { MessageService } from "src/app/Message/Domain/Services/MessageService";
+import { TextMessagesRepository } from "src/app/Message/Infrastructure/Repositories/TextMessagesRepository";
 
-class Container {
-    private services: Map<string, Constructor<any>> = new Map();
-
-    register<T>(key: string, service: Constructor<T>): void {
-        this.services.set(key, service);
-    }
-
-    resolve<T>(key: string): T {
-        const service = this.services.get(key);
-        if (!service) {
-            throw new Error(`Service not found: ${key}`);
-        }
-        return new service();
-    }
-}
-
-export const container = new Container();
+container.registerSingleton<IMessageService>("IMessageService", MessageService);
+container.registerSingleton("IMessageService", TextMessagesRepository);
