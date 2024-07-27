@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { HttpException } from "Kernel/Http/HttpException";
 import { parse, StackFrame } from "stack-trace";
+import { HttpException } from "../Http/HttpException";
 
 export default class Trace {
     public static stackTrace(error: Error): StackFrame[] {

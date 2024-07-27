@@ -1,6 +1,5 @@
 import type { Knex } from "knex";
 
-
 export async function up(knex: Knex): Promise<void> {
     return knex.schema.withSchema('public').createTable('integrator', (table) => {
         table.increments('id').unique({ indexName: 'id'});
@@ -11,7 +10,6 @@ export async function up(knex: Knex): Promise<void> {
         table.timestamp('updated_at').defaultTo(knex.fn.now());
     });
 }
-
 
 export async function down(knex: Knex): Promise<void> {
     return knex.schema.withSchema('public').dropTableIfExists('integrator');
