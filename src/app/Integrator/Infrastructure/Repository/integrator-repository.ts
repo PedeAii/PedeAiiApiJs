@@ -1,10 +1,10 @@
-import { Database } from "Kernel/Database/Knex";
 import { Integrator } from "../../Domain/Entity/integrator";
 import { IntegratorRepository as IintegratorRepository } from "../../Domain/Repository/integrator-repository";
 import { IntegratorId } from "../../Domain/Entity/integrator-id";
-import { CreatedAt } from "src/utils/Date/created-at";
-import { UpdatedAt } from "src/utils/Date/updated-at";
-import { NotFound } from "Kernel/Http/NotFound";
+import { Database } from "../../../../../Kernel/Database/Knex";
+import { NotFound } from "../../../../../Kernel/Http/NotFound";
+import { CreatedAt } from "../../../../utils/Date/created-at";
+import { UpdatedAt } from "../../../../utils/Date/updated-at";
 
 
 export class IntegratorRepository implements IintegratorRepository {

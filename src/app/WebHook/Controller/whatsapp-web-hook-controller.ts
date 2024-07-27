@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { WhatsAppWebHookService } from "src/app/WebHook/Domain/Service/whatsapp-web-hook-service";
+import { WhatsAppWebHookService } from "../Domain/Service/whatsapp-web-hook-service";
 
 export class WhatsAppWebHookController {
 

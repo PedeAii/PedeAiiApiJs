@@ -1,6 +1,6 @@
-import { Database } from "Kernel/Database/Knex";
-import { TextMessagesEntity } from "Kernel/Entities/TextMessageEntity/TextMessageEntity";
-import { Cryptography } from "src/utils/Cryptography/Cryptography";
+import { Database } from "../../../../../Kernel/Database/Knex";
+import { TextMessagesEntity } from "../../../../../Kernel/Entities/TextMessageEntity/TextMessageEntity";
+import { Cryptography } from "../../../../utils/Cryptography/Cryptography";
 
 
 export class TextMessagesRepository {

@@ -1,12 +1,12 @@
-import { CreatedAt } from "src/utils/Date/created-at";
+import { CreatedAt } from "../../../../utils/Date/created-at";
 import { IntegratorAuthDTO } from "../../Controller/dto/integrator-auth-dto";
 import { Integrator } from "../Entity/integrator";
-import { UpdatedAt } from "src/utils/Date/updated-at";
+import { UpdatedAt } from "../../../../utils/Date/updated-at";
 import { IntegratorId } from "../Entity/integrator-id";
 import { IntegratorRepository } from "../../Infrastructure/Repository/integrator-repository";
-import { Unauthorized } from "Kernel/Http/Unauthorized";
+import { Unauthorized } from "../../../../../Kernel/Http/Unauthorized";
 import { sign } from "jsonwebtoken";
-import { Cryptography } from "src/utils/Cryptography/Cryptography";
+import { Cryptography } from "../../../../utils/Cryptography/Cryptography";
 
 
 export class IntegratorService {
