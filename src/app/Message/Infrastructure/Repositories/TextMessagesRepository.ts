@@ -1,7 +1,7 @@
 import { Database } from "../../../../../Kernel/Database/Knex";
 import { TextMessagesEntity } from "src/app/Message/Domain/Entity/TextMessageEntity";
 import { Cryptography } from "../../../../utils/Cryptography/Cryptography";
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 import { ITextMessagesRepository } from "./ITextMessageRepository";
 
 @injectable()
@@ -21,7 +21,7 @@ export class TextMessagesRepository extends Database implements ITextMessagesRep
     public async create(message: TextMessagesEntity): Promise<TextMessagesEntity> {
         const [newEntity]: TextMessagesEntity[] = await this.getInstance().insert({
             ulid: Cryptography.ulid(),
-            ...message
+            message
         }).into(this.tableName).returning(['ulid', 'message']);
 
         return newEntity;

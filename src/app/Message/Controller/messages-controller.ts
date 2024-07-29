@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { IMessageService } from "../Domain/Services/IMessageService";
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import { TextMessagesRepository } from "../Infrastructure/Repositories/TextMessagesRepository";
 
 @injectable()
@@ -13,7 +13,8 @@ export class MessageController {
         const { message } = req.body;
 
         try {
-            const messageCreated = await new TextMessagesRepository().create(message);
+            const messageCreated = await this.messageService.create(message);
+
             return res.status(201).json({
                 'message': messageCreated
             })

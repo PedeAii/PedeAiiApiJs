@@ -1,12 +1,11 @@
 import { Router } from 'express';
 import { MessageController } from '../Controller/messages-controller';
-import { container } from 'tsyringe';
-import '../../../../Kernel/Container/Container';
+import { container } from '../../../../Kernel/Container/Container';
 
-const messageController = container.resolve(MessageController);
+const messageController = container.get<MessageController>(MessageController);
 
 const messageRouter = Router();
 
-messageRouter.post('/message', messageController.create)
+messageRouter.post('/message', (req, res) => messageController.create(req, res));
 
-export { messageRouter }
+export { messageRouter };

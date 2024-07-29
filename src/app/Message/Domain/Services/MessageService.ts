@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import { TextMessagesEntity } from "../Entity/TextMessageEntity";
 import { ITextMessagesRepository } from "../../Infrastructure/Repositories/ITextMessageRepository";
 
