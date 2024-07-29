@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { TextMessagesRepository } from "src/app/Message/Infrastructure/Repositories/TextMessagesRepository";
 import { IMessageService } from "../Domain/Services/IMessageService";
 
 export class MessageController {
