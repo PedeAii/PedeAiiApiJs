@@ -1,7 +1,8 @@
-import { Database } from "../../../../../Kernel/Database/Knex";
 import { Integrator } from "../../Domain/Entity/integrator";
 import { IntegratorRepository as IintegratorRepository } from "../../Domain/Repository/integrator-repository";
 import { IntegratorId } from "../../Domain/Entity/integrator-id";
+import { Database } from "../../../../../Kernel/Database/Knex";
+import { NotFound } from "../../../../../Kernel/Http/NotFound";
 import { CreatedAt } from "../../../../utils/Date/created-at";
 import { UpdatedAt } from "../../../../utils/Date/updated-at";
 
@@ -13,7 +14,7 @@ export class IntegratorRepository extends Database implements IintegratorReposit
 
     protected tableName = 'integrator';
 
-    async getByUsername(username: string): Promise<Integrator | undefined> {
+    async getByUsername(username: string): Promise<Integrator> {
         const result = await this.getInstance()
             .select('*')
             .from(this.tableName)
@@ -21,7 +22,7 @@ export class IntegratorRepository extends Database implements IintegratorReposit
             .first();
 
         if (!result) {
-            return undefined;
+            throw new NotFound(['Integrator not found']);
         }
 
         return this.getIntegrator(result);

@@ -1,8 +1,8 @@
-import { CreatedAt } from "../../../../utils/Date/created-at";
-import { UpdatedAt } from "../../../../utils/Date/updated-at";
 import { IntegratorId } from "./integrator-id";
-import { empty } from "../../../../utils/Functions/empty";
+import { CreatedAt } from "../../../../utils/Date/created-at";
 import { UnprocessableEntity } from "../../../../../Kernel/Http/UnprocessableEntity";
+import { UpdatedAt } from "../../../../utils/Date/updated-at";
+import { empty } from "../../../../utils/Functions/empty";
 
 export class Integrator {
     constructor(

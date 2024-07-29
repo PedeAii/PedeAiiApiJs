@@ -1,8 +1,8 @@
 import { Database } from "../../../../../Kernel/Database/Knex";
-import { TextMessagesEntity } from "src/app/Message/Domain/Entity/TextMessageEntity";
+import { TextMessagesEntity } from "../../../Message/Domain/Entity/TextMessageEntity";
 import { Cryptography } from "../../../../utils/Cryptography/Cryptography";
-import { injectable } from "inversify";
 import { ITextMessagesRepository } from "./ITextMessageRepository";
+import { injectable } from "inversify";
 
 @injectable()
 export class TextMessagesRepository extends Database implements ITextMessagesRepository {

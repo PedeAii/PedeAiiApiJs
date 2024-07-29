@@ -4,7 +4,7 @@ import { IMessageService } from "../../src/app/Message/Domain/Services/IMessageS
 import { MessageService } from "../../src/app/Message/Domain/Services/MessageService";
 import { ITextMessagesRepository } from "../../src/app/Message/Infrastructure/Repositories/ITextMessageRepository";
 import { TextMessagesRepository } from "../../src/app/Message/Infrastructure/Repositories/TextMessagesRepository";
-import { MessageController } from 'src/app/Message/Controller/messages-controller';
+import { MessageController } from '../../src/app/Message/Controller/messages-controller';
 
 const container = new Container();
 
