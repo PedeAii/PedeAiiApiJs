@@ -22,6 +22,6 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "include": ["src/**/*", "Kernel/**/*", "tests/**/*.ts", "./index.ts", "./knexfile.ts"],
-	"exclude": ["node_modules", "dist"]
+	"exclude": ["node_modules", "dist"],
   //"exclude": ["./dist", "**/*.test.*", "**/mocks/*", "**/tests/*"]
 }

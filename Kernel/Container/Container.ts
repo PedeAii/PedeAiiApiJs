@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Container } from "inversify";
 import { IMessageService } from "../../src/app/Message/Domain/Services/IMessageService";
 import { MessageService } from "../../src/app/Message/Domain/Services/MessageService";
