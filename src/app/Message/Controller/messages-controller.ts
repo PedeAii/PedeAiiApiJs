@@ -1,18 +1,15 @@
 import { Request, Response } from "express";
-import { TextMessagesRepository } from "src/app/Message/Repositories/Messages/TextMessagesRepository";
+import { IMessageService } from "../Domain/Services/IMessageService";
 
 export class MessageController {
-    constructor() { }
+    constructor(private readonly messageService: IMessageService) { }
 
     async create(req: Request, res: Response) {
-        const messageEntity = new TextMessagesRepository();
         const { message } = req.body;
 
         try {
 
-            const messageCreated = await messageEntity.create({
-                message
-            });
+            const messageCreated = await this.messageService.create(message);
 
             return res.status(201).json({
                 'message': messageCreated

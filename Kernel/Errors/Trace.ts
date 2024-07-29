@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { HttpException } from "Kernel/http/HttpException";
 import { parse, StackFrame } from "stack-trace";
+import { HttpException } from "../Http/HttpException";
 
 export default class Trace {
     public static stackTrace(error: Error): StackFrame[] {
         return parse(error);
     }
 
-    public static managerError(error: any, req: Request, res: Response): Response {
+    public static managerError(error: Error, req: Request, res: Response): Response {
         const trace = Trace.stackTrace(error);
         
         if (error instanceof HttpException) {
@@ -16,6 +16,9 @@ export default class Trace {
             return res.status(error.getStatusCode()).json(response)
         }
 
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({
+            error: 'Internal Server Error',
+            trace: error.stack
+        });
     };
 }

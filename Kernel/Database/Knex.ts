@@ -11,13 +11,13 @@ const {
 } = process.env;
 
 export class Database {
-  private static instance: Knex;
+  private instance: Knex;
 
-    private constructor() {}
+    public constructor() {}
 
-  public static getInstance(): Knex {
-    if (!Database.instance) {
-      Database.instance = knex({
+  public getInstance(): Knex {
+    if (!this.instance) {
+      this.instance = knex({
         client: DB_CONNECTION,
         connection: {
           host: DB_HOST,
@@ -36,7 +36,8 @@ export class Database {
         }
       });
     }
-    return Database.instance;
+
+    return this.instance;
   }
 }
 

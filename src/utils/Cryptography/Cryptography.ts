@@ -1,16 +1,17 @@
 import { randomBytes, scrypt, timingSafeEqual } from 'node:crypto';
 
 export class Cryptography {
+
   private static timestamp = Date.now() / 1000;
     /**
      * @description hash password
-     * @param {string} userPassword
+     * @param {string} password
      * @returns string
      */
-    public static async hashPassword(userPassword:string) {
+    public static async hashPassword(password: string) {
       const salt = randomBytes(16).toString('base64');
       const hash = await new Promise<Buffer>((resolve, reject) => {
-        scrypt(userPassword, salt, 64, (err, derivedKey) => {
+        scrypt(password, salt, 64, (err, derivedKey) => {
           if (err) reject(err);
           resolve(derivedKey);
         });
@@ -18,27 +19,28 @@ export class Cryptography {
 
       return `${salt}@${hash.toString('base64')}`;
     };
-    
+
     /**
      * @description compare password
-     * @param {string} userPassword senha provida no corpo da requisição
-     * @param {string} password senha do banco
+     * @param {string} password senha provida no corpo da requisição
+     * @param {string} userPassword senha do banco
      * @returns boolean
      */
-    public static async comparePassword(userPassword: string, password: string) {
+    public static async comparePassword(password: string, userPassword: string) {
       const [salt, key] = userPassword.split('@');
+
       const hashedBuffer = await new Promise<Buffer>((resolve, reject) => {
         scrypt(password, salt, 64, (err, derivedKey) => {
           if (err) reject(err);
           resolve(derivedKey);
         });
       });
-    
+
       const keyBuffer = Buffer.from(key, 'base64');
-    
+
       return timingSafeEqual(hashedBuffer, keyBuffer);
     }
-  
+
   /**
    * @description generate ulid
    * @returns string
