@@ -23,20 +23,25 @@ export class Cryptography {
     
     /**
      * @description compare password
-     * @param {string} userPassword senha provida no corpo da requisição
-     * @param {string} password senha do banco
+     * @param {string} password senha provida no corpo da requisição
+     * @param {string} userPassword senha do banco
      * @returns boolean
      */
-    public static async comparePassword(userPassword: string, password: string) {
+    public static async comparePassword(password: string, userPassword: string) {
       const [salt, key] = userPassword.split('@');
+
       const hashedBuffer = await new Promise<Buffer>((resolve, reject) => {
         scrypt(password, salt, 64, (err, derivedKey) => {
           if (err) reject(err);
           resolve(derivedKey);
         });
       });
-    
+
+      
       const keyBuffer = Buffer.from(key, 'base64');
+      console.log(hashedBuffer);
+      console.log(keyBuffer);
+
     
       return timingSafeEqual(hashedBuffer, keyBuffer);
     }
