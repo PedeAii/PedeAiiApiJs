@@ -13,6 +13,7 @@ services:
     networks:
       - pedeaii
     restart: always
+    command: npm run watch
 
   db:
     container_name: pedeaii-db
