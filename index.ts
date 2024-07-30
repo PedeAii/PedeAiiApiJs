@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import "express-async-errors";
 import express, { NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 import { Kernel } from './Kernel/Kernel';
 import Trace from "./Kernel/Errors/Trace";
 
@@ -11,6 +12,9 @@ kernel.run();
 const { PORT } = process.env;
 
 app.use(express.json());
+app.use(cors({
+  origin: '*',
+}));
 app.use(kernel.getRoutes());
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => Trace.managerError(error, req, res));

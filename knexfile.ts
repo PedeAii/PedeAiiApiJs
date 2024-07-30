@@ -1,7 +1,7 @@
 import type { Knex } from "knex";
 import 'dotenv/config';
 
-const { 
+const {
   DB_CONNECTION,
   DB_HOST,
   DB_PORT,
@@ -16,7 +16,9 @@ const {
   POSTGRES_PASSWORD_TEST
 } = process.env;
 
-const config: { [key: string]: Knex.Config } = {
+type Config = { [key: string]: Knex.Config };
+
+const config: Config = {
   development: {
     client: DB_CONNECTION,
     connection: {
