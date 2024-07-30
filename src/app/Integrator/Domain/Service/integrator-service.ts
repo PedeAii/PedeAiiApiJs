@@ -17,7 +17,7 @@ export class IntegratorService {
         this.integratorRepository = new IntegratorRepository()
     }
 
-    async auth(integratorAuthDTO: IntegratorAuthDTO) {        
+    async auth(integratorAuthDTO: IntegratorAuthDTO): Promise<string> {        
         const integrator = new Integrator(
             new IntegratorId(null),
             integratorAuthDTO.username as string,

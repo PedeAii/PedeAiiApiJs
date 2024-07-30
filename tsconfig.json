@@ -6,12 +6,13 @@
     "module": "commonjs",                                /* Specify what module code is generated. */
     "types": [
       "node",
+      "reflect-metadata",
       "jest"
     ],                                      /* Specify type package names to be included without being referenced in a source file. */
     "resolveJsonModule": true,                        /* Enable importing .json files. */
     "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
     "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
-    "outDir": "./dist",                                   /* Specify an output folder for all emitted files. */
+    "outDir": "dist",                                   /* Specify an output folder for all emitted files. */
     "noEmitOnError": true,                            /* Disable emitting files if any type checking errors are reported. */
     "allowSyntheticDefaultImports": true,             /* Allow 'import x from y' when a module doesn't have a default export. */
     "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
@@ -21,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,               /* Enable error reporting for fallthrough cases in switch statements. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*", "Kernel/**/*", "tests/**/*.ts"],
-	"exclude": ["node_modules", "dist"]
+  "include": ["src/**/*.ts", "Kernel/**/*.ts", "tests/**/*.ts", "./index.ts", "./knexfile.ts"],
+	"exclude": ["node_modules", "dist"],
   //"exclude": ["./dist", "**/*.test.*", "**/mocks/*", "**/tests/*"]
 }
