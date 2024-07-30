@@ -13,13 +13,13 @@ export class WhatsAppWebHookController {
         return res.status(200).json({ ok: true });
     }
 
-    async execute(req: Request, res: Response) {
-        //Passar por TDO
-        await this.whatsAppWebHookService.execute(req, res);
-    }
+    // async execute(req: Request, res: Response) {
+    //     //Passar por TDO
+    //     await this.whatsAppWebHookService.execute(req, res);
+    // }
 
-    async verify(req: Request, res: Response) {
-        //Passar por TDO
-        await this.whatsAppWebHookService.verify(req, res);
-    }
+    // async verify(req: Request, res: Response) {
+    //     //Passar por TDO
+    //     await this.whatsAppWebHookService.verify(req, res);
+    // }
 }
