@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { injectable } from 'inversify';
 import knex, { Knex } from 'knex';
 
 const { 
@@ -10,6 +11,7 @@ const {
   POSTGRES_PASSWORD,
 } = process.env;
 
+@injectable()
 export class Database {
   private instance: Knex;
 

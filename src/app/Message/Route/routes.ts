@@ -1,15 +1,11 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { MessageController } from '../Controller/messages-controller';
-import { MessageService } from '../Domain/Services/MessageService';
-import { IMessageService } from '../Domain/Services/IMessageService';
 import { container } from '../../../../Kernel/Container/Container';
 
-container.register<IMessageService>('IMessageService', MessageService);
-const messageService = container.resolve<IMessageService>('IMessageService');
+const messageController = container.get<MessageController>(MessageController);
 
-const messageController = new MessageController(messageService);
 const messageRouter = Router();
 
-messageRouter.post('/message', messageController.create)
+messageRouter.post('/message', async (req: Request, res: Response) => messageController.create(req, res));
 
-export { messageRouter }
+export { messageRouter };

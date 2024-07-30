@@ -28,7 +28,7 @@ let current_step = 1;
 let message: Chat = {};
 let consumerName = '';
 
-export class WhatsAppWebHookService {
+// export class WhatsAppWebHookService {
 //   async execute(req: Request, res: Response) {
 //       const { value } = req.body.entry?.[0]?.changes[0];
 
@@ -86,7 +86,7 @@ export class WhatsAppWebHookService {
 //     console.log("Webhook verified successfully!");
 //   }
 
-//   async getPayloadToSend() {
+//   async getPayloadToSend(): any {
 //     var payload = this.getMessageThroughStep();
 
 //     switch (current_step) {
@@ -249,20 +249,20 @@ export class WhatsAppWebHookService {
 //               return false;
 //       }
 //   }
-}
+// }
 
-async function getAddessByCep() {
-    try {
-        const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+// async function getAddessByCep() {
+//     try {
+//         const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
 
-        if (!response.data.erro) {
-            return undefined;
-        }
+//         if (!response.data.erro) {
+//             return undefined;
+//         }
 
-        return response.data;
-    } catch (error: any) {
-        if (error.response.status === 400) {
-            return undefined;
-        }
-    }
-}
+//         return response.data;
+//     } catch (error: any) {
+//         if (error.response.status === 400) {
+//             return undefined;
+//         }
+//     }
+// }

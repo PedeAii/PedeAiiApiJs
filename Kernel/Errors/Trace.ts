@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
-import { parse, StackFrame } from "stack-trace";
 import { HttpException } from "../Http/HttpException";
+import { StackFrame } from "stack-trace";
 
 export default class Trace {
-    public static stackTrace(error: Error): StackFrame[] {
+    public static async stackTrace(error: Error): Promise<StackFrame[]> {
+        const { parse } = await import('stack-trace');
         return parse(error);
     }
 
-    public static managerError(error: Error, req: Request, res: Response): Response {
+    public static async managerError(error: Error, req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
         const trace = Trace.stackTrace(error);
         
         if (error instanceof HttpException) {
             const response = error.render();
-            response.trace = trace
+            response.trace = await trace
             return res.status(error.getStatusCode()).json(response)
         }
 

@@ -1,19 +1,14 @@
-type Constructor<T> = new (...args: any[]) => T;
+import { Container } from "inversify";
+import { IMessageService } from "../../src/app/Message/Domain/Services/IMessageService";
+import { MessageService } from "../../src/app/Message/Domain/Services/MessageService";
+import { ITextMessagesRepository } from "../../src/app/Message/Infrastructure/Repositories/ITextMessageRepository";
+import { TextMessagesRepository } from "../../src/app/Message/Infrastructure/Repositories/TextMessagesRepository";
+import { MessageController } from '../../src/app/Message/Controller/messages-controller';
 
-class Container {
-    private services: Map<string, Constructor<any>> = new Map();
+const container = new Container();
 
-    register<T>(key: string, service: Constructor<T>): void {
-        this.services.set(key, service);
-    }
+container.bind<IMessageService>("IMessageService").to(MessageService);
+container.bind<ITextMessagesRepository>("ITextMessagesRepository").to(TextMessagesRepository);
+container.bind<MessageController>(MessageController).toSelf();
 
-    resolve<T>(key: string): T {
-        const service = this.services.get(key);
-        if (!service) {
-            throw new Error(`Service not found: ${key}`);
-        }
-        return new service();
-    }
-}
-
-export const container = new Container();
+export { container };

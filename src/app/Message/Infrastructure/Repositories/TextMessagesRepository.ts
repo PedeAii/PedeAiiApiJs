@@ -1,10 +1,11 @@
 import { Database } from "../../../../../Kernel/Database/Knex";
 import { TextMessagesEntity } from "../../../Message/Domain/Entity/TextMessageEntity";
 import { Cryptography } from "../../../../utils/Cryptography/Cryptography";
-import { IMessageService } from "../../Domain/Services/IMessageService";
+import { ITextMessagesRepository } from "./ITextMessageRepository";
+import { injectable } from "inversify";
 
-
-export class TextMessagesRepository extends Database implements IMessageService {
+@injectable()
+export class TextMessagesRepository extends Database implements ITextMessagesRepository {
     protected tableName = 'text_messages';
 
     constructor() {super();}
@@ -20,7 +21,7 @@ export class TextMessagesRepository extends Database implements IMessageService 
     public async create(message: TextMessagesEntity): Promise<TextMessagesEntity> {
         const [newEntity]: TextMessagesEntity[] = await this.getInstance().insert({
             ulid: Cryptography.ulid(),
-            ...message
+            message
         }).into(this.tableName).returning(['ulid', 'message']);
 
         return newEntity;
