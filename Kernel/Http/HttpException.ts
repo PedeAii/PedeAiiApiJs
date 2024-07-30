@@ -9,13 +9,13 @@ export class HttpException extends Error {
         this.errors = errors;
     }
 
-    public render() : { 
+    public render(): {
         success: boolean,
         error: boolean,
-        message: string, 
+        message: string,
         errorDetail: string[]
         trace: StackFrame[] | null
-    } {        
+    } {
         const body = {
             success: false,
             error: true,
@@ -23,7 +23,7 @@ export class HttpException extends Error {
             errorDetail: this.errors,
             trace: null
         };
-    
+
         return body;
     }
 }

@@ -10,7 +10,7 @@ export default class Trace {
 
     public static async managerError(error: Error, req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
         const trace = Trace.stackTrace(error);
-        
+
         if (error instanceof HttpException) {
             const response = error.render();
             response.trace = await trace
