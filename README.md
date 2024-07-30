@@ -71,6 +71,20 @@ export class SuaClasse implements SuaInterface {
 
 > **Repare que estamos pegando o contrato metodoDaInterface da interface que será implementada na classe, porém no container, estamos utilizando uma classe de fato, visto que uma interface não tem parte lógica, só espelha do que se trata o negócio e suas regras.
 Então temos o método bind() que assina a injeção, e o método to() que atribui o que vai reassinar ou sobreescrever na injeção.**
+
+* Para finalmente usar deverá assinar esse mesmo container com o método **get()**, assinando em seu genéric <> a classe que vai usar e passar a mesma classe no argumento, e adicionar nas rotas do roteamento de endpoints. e.g:
+
+```ts
+import { Request, Response, Router } from 'express';
+import { container } from 'Kernel/Container/Container';
+import { SeuController } from 'SeuController';
+
+const seuController = container.get<SeuController>(SeuController);
+
+const messageRouter = Router();
+
+messageRouter.post('/message', async (req: Request, res: Response) => seuController.create(req, res));
+```
 </details>
 
 -----
