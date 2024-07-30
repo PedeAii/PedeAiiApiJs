@@ -6,8 +6,6 @@ const messageController = container.get<MessageController>(MessageController);
 
 const messageRouter = Router();
 
-messageRouter.post('/message', async function (req: Request, res: Response) {
-  return messageController.create(req, res)
-});
+messageRouter.post('/message', async (req: Request, res: Response) => messageController.create(req, res));
 
 export { messageRouter };
