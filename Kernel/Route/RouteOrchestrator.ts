@@ -13,7 +13,8 @@ export class RouteOrchestrator {
             whatsAppWebHookRouter,
             messageRouter,
             userRouter,
-            integratorRouter
+            integratorRouter,
+            whatsAppWebHookRouter
         ];
     }
 
