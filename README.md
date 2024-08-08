@@ -92,7 +92,7 @@ messageRouter.post('/message', async (req: Request, res: Response) => seuControl
 * #### LINK -> [Tunel: Ngrok](https://ngrok.com/) <- LINK
 Logar com sua conta do Google ou Github.
 * Adicionar seu token no ngrok: **`ngrok config add-authtoken {$SEUTOKEN}`**.
-[Link para pegar o token](https://dashboard.ngrok.com/get-started/your-authtoken).
+* [Link para pegar o token](https://dashboard.ngrok.com/get-started/your-authtoken).
 * Você vai pegar seu token:
 ![Token de Autenticação](assets/image.png)
 
