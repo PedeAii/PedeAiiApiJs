@@ -88,3 +88,17 @@ messageRouter.post('/message', async (req: Request, res: Response) => seuControl
 </details>
 
 -----
+
+* #### LINK -> [Tunel: Ngrok](https://ngrok.com/) <- LINK
+Logar com sua conta do Google ou Github.
+* Adicionar seu token no ngrok: **`ngrok config add-authtoken {$SEUTOKEN}`**.
+[Link para pegar o token](https://dashboard.ngrok.com/get-started/your-authtoken).
+* Você vai pegar seu token:
+![Token de Autenticação](assets/image.png)
+
+* Depois você vai se deparar com essa página e clicar:
+![Página NGROK](assets/image-1.png)
+* Vai clicar nesse botão:
+![Botão](assets/image-2.png)
+* E colocar seu link e o endpoint: **`{$SEU LINK NGROK}/health`**
+![Health Check](assets/image-3.png)

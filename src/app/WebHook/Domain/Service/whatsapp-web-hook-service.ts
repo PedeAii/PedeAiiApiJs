@@ -23,246 +23,234 @@ interface Chat {
     type?: string;
 };
 
-let cep = '';
+let cep: string = '';
 let current_step = 1;
 let message: Chat = {};
 let consumerName = '';
 
-// export class WhatsAppWebHookService {
-//   async execute(req: Request, res: Response) {
-//       const { value } = req.body.entry?.[0]?.changes[0];
+export class WhatsAppWebHookService {
+    async execute(req: Request, res: Response) {
+        const { value } = req.body.entry?.[0]?.changes[0];
 
-//     message = value?.messages?.[0];
-//     consumerName = value?.contacts?.[0].profile.name ?? null;
+        message = value?.messages?.[0];
+        consumerName = value?.contacts?.[0].profile.name ?? null;
 
-//     if (this.hasMessageText() || this.isClickedButton()) {
-//         /// REGISTRO DE LOGS /////////////////////////////////////////////////////// ///
-//         console.log('\n------------------------------------------------------');
-//         console.log('Mensagem do chat do WhatsApp');
-//         console.log(message);
-//         console.log('\ncurrent_step: ' + current_step);
+        if (this.hasMessageText() || this.isClickedButton()) {
+            /// REGISTRO DE LOGS /////////////////////////////////////////////////////// ///
+            console.log('\n------------------------------------------------------');
+            console.log('Mensagem do chat do WhatsApp');
+            console.log(message);
+            console.log('\ncurrent_step: ' + current_step);
 
-//         const business_phone_number_id = value?.metadata?.phone_number_id;
-//         const payload = await this.getPayloadToSend();
+            const business_phone_number_id = value?.metadata?.phone_number_id;
+            const payload = await this.getPayloadToSend();
 
-//         /// REGISTRO DE LOGS /////////////////////////////////////////////////////// ///
-//         console.log('\ncorpo da mensagem/template');
-//         console.log(payload);
-//         console.log('------------------------------------------------------');
+            /// REGISTRO DE LOGS /////////////////////////////////////////////////////// ///
+            console.log('\ncorpo da mensagem/template');
+            console.log(payload);
+            console.log('------------------------------------------------------');
 
-//         await axios({
-//             method: "POST",
-//             url: `https://graph.facebook.com/v20.0/${business_phone_number_id}/messages`,
-//             headers: {
-//                 Authorization: `Bearer ${GRAPH_API_TOKEN}`,
-//             },
-//             data: payload
-//         });
+            await axios({
+                method: "POST",
+                url: `https://graph.facebook.com/v20.0/${business_phone_number_id}/messages`,
+                headers: {
+                    Authorization: `Bearer ${GRAPH_API_TOKEN}`,
+                },
+                data: payload
+            });
 
-//         await axios({
-//             method: "POST",
-//             url: `https://graph.facebook.com/v20.0/${business_phone_number_id}/messages`,
-//             headers: {
-//                 Authorization: `Bearer ${GRAPH_API_TOKEN}`,
-//             },
-//             data: this.getReadStatusPayload()
-//         });
-//     }
+            await axios({
+                method: "POST",
+                url: `https://graph.facebook.com/v20.0/${business_phone_number_id}/messages`,
+                headers: {
+                    Authorization: `Bearer ${GRAPH_API_TOKEN}`,
+                },
+                data: this.getReadStatusPayload()
+            });
+        }
 
-//     res.sendStatus(200);
-//   }
+        res.sendStatus(200).emit('message', 'Mensagem recebida com sucesso!');
+    }
 
-//     async verify(req: Request, res: Response) {
-//     const mode = req.query["hub.mode"];
-//     const token = req.query["hub.verify_token"];
-//         const challenge = req.query["hub.challenge"];
-//         console.log(WEBHOOK_VERIFY_TOKEN)
+    async verify(req: Request, res: Response) {
+        const mode = req.query["hub.mode"];
+        const token = req.query["hub.verify_token"];
+        const challenge = req.query["hub.challenge"];
 
-//     if (mode !== "subscribe" && token !== WEBHOOK_VERIFY_TOKEN) {
-//       res.sendStatus(403);
-//     }
+        if (mode !== "subscribe" && token !== WEBHOOK_VERIFY_TOKEN) {
+            res.sendStatus(403);
+        }
 
-//     res.status(200).send(challenge);
-//     console.log("Webhook verified successfully!");
-//   }
+        res.status(200).send(challenge);
+        console.log("Webhook verified successfully!");
+    }
 
-//   async getPayloadToSend(): any {
-//     var payload = this.getMessageThroughStep();
+    async getPayloadToSend(): Promise<any> {
+        var payload = this.getMessageThroughStep();
 
-//     switch (current_step) {
-//         case step.WELCOME_MESSAGE:
-//             current_step = step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE;
-//             return payload;
+        switch (current_step) {
+            case step.WELCOME_MESSAGE:
+                current_step = step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE;
+                return payload;
 
-//         case step.TYPE_THE_CEP:
-//         case step.TYPE_AN_CORRECT_CEP:
-//             current_step = step.CONFIRM_ADDRESS;
-//             return payload;
+            case step.TYPE_THE_CEP:
+            case step.TYPE_AN_CORRECT_CEP:
+                current_step = step.CONFIRM_ADDRESS;
+                return payload;
 
-//         case step.CONFIRM_ADDRESS:
-//             this.setCep(message.text.body);
-//             const address = await getAddessByCep();
+            case step.CONFIRM_ADDRESS:
+                this.setCep(message?.text?.body ?? '');
+                const address = await getAddessByCep();
 
-//             if (this.empty(address)) {
-//                 current_step = step.TYPE_AN_CORRECT_CEP;
-//                 return this.getPayloadToSend();
-//             }
+                if (this.empty(address)) {
+                    current_step = step.TYPE_AN_CORRECT_CEP;
+                    return this.getPayloadToSend();
+                }
 
-//             payload.interactive.body.text = payload.interactive.body.text.replace('{{1}}', address.logradouro);
-//             payload.interactive.body.text = payload.interactive.body.text.replace('{{2}}', address.bairro);
-//             payload.interactive.body.text = payload.interactive.body.text.replace('{{3}}', address.localidade);
-//             payload.interactive.body.text = payload.interactive.body.text.replace('{{4}}', address.uf);
-//             payload.interactive.body.text = payload.interactive.body.text.replace('{{5}}', address.cep);
-//             current_step = step.CHECK_CONFIRM_ADDRESS_BUTTON_CHOICE;
+                payload.interactive.body.text = payload.interactive.body.text.replace('{{1}}', address.logradouro);
+                payload.interactive.body.text = payload.interactive.body.text.replace('{{2}}', address.bairro);
+                payload.interactive.body.text = payload.interactive.body.text.replace('{{3}}', address.localidade);
+                payload.interactive.body.text = payload.interactive.body.text.replace('{{4}}', address.uf);
+                payload.interactive.body.text = payload.interactive.body.text.replace('{{5}}', address.cep);
+                current_step = step.CHECK_CONFIRM_ADDRESS_BUTTON_CHOICE;
 
-//             return payload;
+                return payload;
 
-//         case step.THANKFUL_MESSAGE:
-//             current_step = step.WELCOME_MESSAGE;
-//             return payload;
-            
-//     }
+            case step.THANKFUL_MESSAGE:
+                current_step = step.WELCOME_MESSAGE;
+                return payload;
 
-//     return null;
-//   }
+        }
 
-//   getMessageThroughStep() {
-//     const destiny = {
-//         "messaging_product": "whatsapp",
-//         "to": message.from,
-//     }
+        return null;
+    }
 
-//     this.setCurrentStepByButtonChoice();
+    getMessageThroughStep() {
+        const destiny = {
+            "messaging_product": "whatsapp",
+            "to": message.from,
+        }
 
-//     const message_base = JSON.parse(
-//         JSON.stringify(step_message[current_step])
-//     );
+        this.setCurrentStepByButtonChoice();
 
-//     return { ...destiny, ...message_base };
-//   }
+        const message_base = JSON.parse(
+            JSON.stringify(step_message[current_step])
+        );
 
-//   setCurrentStepByButtonChoice() {
-//       var answer: string|undefined = '';
+        return { ...destiny, ...message_base };
+    }
 
-//       switch (current_step) {
-//           case step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE:
-//               answer = this.getButtonAnswer();
+    setCurrentStepByButtonChoice() {
+        var answer: string | undefined = '';
 
-//               if (!answer) {
-//                   current_step = step.WELCOME_MESSAGE;
-//                   break;
-//               }
+        switch (current_step) {
+            case step.CHECK_WELCOME_MESSAGE_BUTTON_CHOICE:
+                answer = this.getButtonAnswer();
 
-//               if (answer === "Sim") {
-//                 current_step = step.TYPE_THE_CEP;
-//               } else {
-//                   current_step = step.THANKFUL_MESSAGE;
-//               }
+                if (!answer) {
+                    current_step = step.WELCOME_MESSAGE;
+                    break;
+                }
 
-//               break;
+                if (answer === "Sim") {
+                    current_step = step.TYPE_THE_CEP;
+                } else {
+                    current_step = step.THANKFUL_MESSAGE;
+                }
 
-//           case step.CHECK_CONFIRM_ADDRESS_BUTTON_CHOICE:
-//               answer = this.getButtonAnswer();
+                break;
 
-//               if (!answer) {
-//                   current_step = step.CONFIRM_ADDRESS;
-//                   message.text.body = cep;
-//                   break;
-//               }
+            case step.CHECK_CONFIRM_ADDRESS_BUTTON_CHOICE:
+                answer = this.getButtonAnswer();
 
-//               if (this.getButtonAnswer() === "Sim") {
-//                   current_step = step.THANKFUL_MESSAGE;
-//               } else {
-//                   current_step = step.TYPE_THE_CEP;
-//               }
+                if (!answer) {
+                    current_step = step.CONFIRM_ADDRESS;
 
-//               break;
-//       }
-//   }
+                    if (!message.text) {
+                        message.text = { body: '' };
+                    }
 
-//   // @todo criar exception caso não existir um clique de botão
-//   getButtonAnswer() {
-//       if (!this.isClickedButton()) return undefined;
+                    message.text.body = cep;
+                    break;
+                }
 
-//       switch (message?.interactive?.button_reply?.title) {
-//           case "Sim": return "Sim";
-//           case "Não": return "Não";
-//       }
-//   }
+                if (this.getButtonAnswer() === "Sim") {
+                    current_step = step.THANKFUL_MESSAGE;
+                } else {
+                    current_step = step.TYPE_THE_CEP;
+                }
 
-//   hasMessageText() {
-//       if (!message) {
-//           return false;
-//       }
+                break;
+        }
+    }
 
-//       return message?.type === "text";
-//   }
+    // @todo criar exception caso não existir um clique de botão
+    getButtonAnswer() {
+        if (!this.isClickedButton()) return undefined;
 
-//   isClickedButton() {
-//       if (!message) {
-//           return false;
-//       }
+        switch (message?.interactive?.button_reply?.title) {
+            case "Sim": return "Sim";
+            case "Não": return "Não";
+        }
+    }
 
-//       return message?.type === "interactive";
-//   }
+    hasMessageText() {
+        if (!message) {
+            return false;
+        }
 
-//   getReadStatusPayload() {
-//       return {
-//           messaging_product: "whatsapp",
-//           status: "read",
-//           message_id: message.id
-//       }
-//   }
+        return message?.type === "text";
+    }
 
-//   setCep(new_cep: {
-//     id?: string;
-//     from?: string;
-//     text?: {
-//         body: string;
-//     };
-//     interactive?: {
-//         button_reply?: {
-//             title: string;
-//             payload: string;
-//         };
-//     };
-//     quick_reply?: {
-//         payload: string;
-//     };
-//     type?: string;
-// }) {
-//       cep = new_cep;
-//   }
+    isClickedButton() {
+        if (!message) {
+            return false;
+        }
 
-//   empty(value: any) {
-//       switch (value) {
-//           case null:
-//           case undefined:
-//           case false:
-//           case {}:
-//           case "":
-//           case '':
-//           case ``:
-//           case 0:
-//               return true;
-//           default:
-//               return false;
-//       }
-//   }
-// }
+        return message?.type === "interactive";
+    }
 
-// async function getAddessByCep() {
-//     try {
-//         const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+    getReadStatusPayload() {
+        return {
+            messaging_product: "whatsapp",
+            status: "read",
+            message_id: message.id
+        }
+    }
 
-//         if (!response.data.erro) {
-//             return undefined;
-//         }
+    setCep(new_cep: string) {
+        cep = new_cep;
+    }
 
-//         return response.data;
-//     } catch (error: any) {
-//         if (error.response.status === 400) {
-//             return undefined;
-//         }
-//     }
-// }
+    empty(value: any) {
+        switch (value) {
+            case null:
+            case undefined:
+            case false:
+            case {}:
+            case "":
+            case '':
+            case ``:
+            case 0:
+                return true;
+            default:
+                return false;
+        }
+    }
+}
+
+async function getAddessByCep() {
+    try {
+        const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+
+        if (!response.data.erro) {
+            return undefined;
+        }
+
+        return response.data;
+    } catch (error: any) {
+        if (error.response.status === 400) {
+            return undefined;
+        }
+    }
+}
