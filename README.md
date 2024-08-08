@@ -101,4 +101,4 @@ Logar com sua conta do Google ou Github.
 * Vai clicar nesse botão:
 ![Botão](assets/image-2.png)
 * E colocar seu link e o endpoint: **`{$SEU LINK NGROK}/health`**
-![Health Check](assets/image-4.png)
+![Health Check](assets/image-3.png)
