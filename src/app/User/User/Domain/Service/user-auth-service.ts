@@ -1,7 +1,19 @@
 import * as jwt from 'jsonwebtoken';
 import { Cryptography } from '../../../../../utils/Cryptography/Cryptography.js'
+import { injectable } from 'inversify';
+import { UserAuthDto } from '../../Controller/dto/user-auth-dto.js';
 
-export class AuthUserService {
+@injectable()
+export class UserAuthService {
+	constructor() {
+
+	}
+
+	async auth(userAuthDto: UserAuthDto) {
+
+	}
+}
+
   // async execute(email: string, password: string) {
   //   const user = await User.findOne({ email });
 
@@ -34,5 +46,3 @@ export class AuthUserService {
   //     token
   //   }
   // }
-}
-

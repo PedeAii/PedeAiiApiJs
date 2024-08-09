@@ -4,11 +4,18 @@ import { MessageService } from "../../src/app/Message/Domain/Services/MessageSer
 import { ITextMessagesRepository } from "../../src/app/Message/Infrastructure/Repositories/ITextMessageRepository";
 import { TextMessagesRepository } from "../../src/app/Message/Infrastructure/Repositories/TextMessagesRepository";
 import { MessageController } from '../../src/app/Message/Controller/messages-controller';
+import { UserController } from "../../src/app/User/User/Controller/user-controller";
 
 const container = new Container();
+
+// Message
 
 container.bind<IMessageService>("IMessageService").to(MessageService);
 container.bind<ITextMessagesRepository>("ITextMessagesRepository").to(TextMessagesRepository);
 container.bind<MessageController>(MessageController).toSelf();
+
+// User
+
+container.bind<UserController>(UserController).toSelf();
 
 export { container };
