@@ -1,5 +1,5 @@
 export class Email {
-    constructor(public readonly email: string|null) {}
+    constructor(public readonly email: string | null) { }
 
     /**
      * @description Valida se o email está no formato correto:

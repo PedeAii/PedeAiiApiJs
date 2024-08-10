@@ -6,19 +6,19 @@ import { Success } from "../../../../../Kernel/Http/Success";
 
 @injectable()
 export class UserController {
-	constructor(
-		@inject('IUserAuthService') private readonly userAuthService: IUserAuthService
-	) {}
+    constructor(
+        @inject('IUserAuthService') private readonly userAuthService: IUserAuthService
+    ) { }
 
-  	async execute( req: Request, res: Response ) {
-		const { email, password } = req.body;
+    async execute(req: Request, res: Response) {
+        const { email, password } = req.body;
 
-		const output = await this.userAuthService.auth(
-			new UserAuthDto(email, password)
-		);
+        const output = await this.userAuthService.auth(
+            new UserAuthDto(email, password)
+        );
 
         const success = new Success(output.jsonSerialize());
 
         return res.json(success.render());
-  	}
+    }
 }
