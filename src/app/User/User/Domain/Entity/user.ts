@@ -51,4 +51,16 @@ export class User {
 
         return true;
     }
+
+    public jsonSerialize(): Object {
+        return {
+            'id': this.id.getId,
+            'roleId': this.roleId.getId,
+            'addressId': this.addressId.getId,
+            'username': this.username,
+            'email': this.email,
+            'phone': this.phone,
+            'userStatus': this.userStatus.getStatus()
+        }
+    }
 }

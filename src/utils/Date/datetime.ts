@@ -8,11 +8,11 @@ export class Datetime {
     }
 
     public toBrazilian(): string {
-        return this.date.format('DD-MM-YYYY h:mm:ss');
+        return this.date.format('DD-MM-YYYY HH:mm:ss');
     }
 
     public toDatabase(): string {
-        return this.date.format('YYYY-MM-DD h:mm:ss')
+        return this.date.format('YYYY-MM-DD HH:mm:ss')
     }
 
     public jsonSerialize(): Object {
