@@ -1,16 +1,25 @@
 import * as jwt from 'jsonwebtoken';
 import { Cryptography } from '../../../../../utils/Cryptography/Cryptography.js'
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { UserAuthDto } from '../../Controller/dto/user-auth-dto.js';
+import { IUserRepository } from '../../Infrastructura/Repository/i-user-repository.js';
+import { User } from '../Entity/user.js';
 
 @injectable()
 export class UserAuthService {
-	constructor() {
+	constructor(
+		@inject('IUserRepository') private readonly userRepository: IUserRepository
+	) {}
 
-	}
+	async auth(userAuthDto: UserAuthDto): Promise<boolean> {
+		let user = null;
 
-	async auth(userAuthDto: UserAuthDto) {
+		if (userAuthDto.email) {
+			user = this.userRepository.getByEmail(userAuthDto.email)			
+		}
 
+		
+		return true
 	}
 }
 

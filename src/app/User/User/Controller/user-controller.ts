@@ -15,5 +15,7 @@ export class UserController {
 		const output = await this.userAuthService.auth(
 			new UserAuthDto (email, password)
 		);
+
+		return res.json({output})
   	}
 }

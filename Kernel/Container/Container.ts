@@ -5,6 +5,10 @@ import { ITextMessagesRepository } from "../../src/app/Message/Infrastructure/Re
 import { TextMessagesRepository } from "../../src/app/Message/Infrastructure/Repositories/TextMessagesRepository";
 import { MessageController } from '../../src/app/Message/Controller/messages-controller';
 import { UserController } from "../../src/app/User/User/Controller/user-controller";
+import { IUserAuthService } from "../../src/app/User/User/Domain/Service/i-user-auth-service";
+import { UserAuthService } from "../../src/app/User/User/Domain/Service/user-auth-service";
+import { IUserRepository } from "../../src/app/User/User/Infrastructura/Repository/i-user-repository";
+import { UserRepository } from "../../src/app/User/User/Infrastructura/Repository/user-repository";
 
 const container = new Container();
 
@@ -16,6 +20,8 @@ container.bind<MessageController>(MessageController).toSelf();
 
 // User
 
+container.bind<IUserAuthService>("IUserAuthService").to(UserAuthService);
+container.bind<IUserRepository>("IUserRepository").to(UserRepository)
 container.bind<UserController>(UserController).toSelf();
 
 export { container };
