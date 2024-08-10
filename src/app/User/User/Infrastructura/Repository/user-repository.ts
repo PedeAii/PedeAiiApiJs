@@ -3,6 +3,7 @@ import { CreatedAt } from "../../../../../utils/Date/created-at";
 import { DeletedAt } from "../../../../../utils/Date/deleted-at";
 import { UpdatedAt } from "../../../../../utils/Date/updated-at";
 import { Cpf } from "../../../../../utils/Entity/cpf";
+import { Email } from "../../../../../utils/Entity/email";
 import { AddressId } from "../../../../Address/Domain/Entity/address-id";
 import { RoleId } from "../../../Profile/Role/Domain/Entity/role-id";
 import { User } from "../../Domain/Entity/user";
@@ -35,7 +36,7 @@ export class UserRepository extends Database implements IUserRepository {
             new RoleId(result.role_id ?? null),
             new AddressId(result.address_id ?? null),
             result.username ?? null,
-            result.email ?? null,
+            new Email(result.email),
             result.password ?? null,
             result.phone ?? null,
             new Cpf(result.document),

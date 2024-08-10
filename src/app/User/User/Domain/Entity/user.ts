@@ -3,6 +3,7 @@ import { CreatedAt } from "../../../../../utils/Date/created-at";
 import { DeletedAt } from "../../../../../utils/Date/deleted-at";
 import { UpdatedAt } from "../../../../../utils/Date/updated-at";
 import { Cpf } from "../../../../../utils/Entity/cpf";
+import { Email } from "../../../../../utils/Entity/email";
 import { AddressId } from "../../../../Address/Domain/Entity/address-id";
 import { RoleId } from "../../../Profile/Role/Domain/Entity/role-id";
 import { UserId } from "./user-id";
@@ -14,7 +15,7 @@ export class User {
         public readonly roleId: RoleId,
         public readonly addressId: AddressId,
         public readonly username: string | null,
-        public readonly email: string,
+        public readonly email: Email,
         public readonly password: string,
         public readonly phone: string | null,
         public readonly document: Cpf,
@@ -37,7 +38,7 @@ export class User {
             errors.push('Password invalid or not informed');
         }
 
-        if (!this.email) {
+        if (!this.email.isValidEmail()) {
             errors.push('Email invalid or not informed');
         }
 
@@ -54,11 +55,11 @@ export class User {
 
     public jsonSerialize(): Object {
         return {
-            'id': this.id.getId,
-            'roleId': this.roleId.getId,
-            'addressId': this.addressId.getId,
+            'id': this.id.getIdEncoded,
+            'roleId': this.roleId.getIdEncoded,
+            'addressId': this.addressId.getIdEncoded,
             'username': this.username,
-            'email': this.email,
+            'email': this.email.email,
             'phone': this.phone,
             'userStatus': this.userStatus.getStatus()
         }

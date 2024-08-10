@@ -1,3 +1,5 @@
+import { Cryptography } from "../Cryptography/Cryptography";
+
 export class Identifier {
 
     private id: string|null;
@@ -8,5 +10,11 @@ export class Identifier {
 
     public get getId() : string|null {
         return this.id;
+    }
+
+    public get getIdEncoded() : string|null {
+        if (!this.id) return null;
+
+        return Cryptography.jwtEncoded(this.id);
     }
 }
