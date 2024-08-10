@@ -10,28 +10,28 @@ import { IUserAuthService } from './i-user-auth-service.js';
 import { UserAuthToken } from '../Entity/user-auth-token.js';
 
 @injectable()
-export class UserAuthService implements IUserAuthService{
-	constructor(
-		@inject('IUserRepository') private readonly userRepository: IUserRepository
-	) {}
+export class UserAuthService implements IUserAuthService {
+    constructor(
+        @inject('IUserRepository') private readonly userRepository: IUserRepository
+    ) { }
 
-	async auth(userAuthDto: UserAuthDto): Promise<UserAuthToken> {
-		if (!userAuthDto.email || !userAuthDto.password) {
-			throw new UnprocessableEntity(['Invalid credentials'])
-		}
+    async auth(userAuthDto: UserAuthDto): Promise<UserAuthToken> {
+        if (!userAuthDto.email || !userAuthDto.password) {
+            throw new UnprocessableEntity(['Invalid credentials'])
+        }
 
-		const currentUser = await this.userRepository.getByEmail(userAuthDto.email)			
-		if (!currentUser) {
-			throw new UnprocessableEntity(['Invalid credentials'])
-		}
+        const currentUser = await this.userRepository.getByEmail(userAuthDto.email)
+        if (!currentUser) {
+            throw new UnprocessableEntity(['Invalid credentials'])
+        }
 
-		await this.compareAuthentication(userAuthDto.password, currentUser.password)
-		
+        await this.compareAuthentication(userAuthDto.password, currentUser.password)
+
         return this.generateToken(currentUser);
-	}
+    }
 
-	private async compareAuthentication(password: string, currentPassword: string): Promise<boolean> {
-        const passwordMatch = await Cryptography.comparePassword(password, currentPassword);        
+    private async compareAuthentication(password: string, currentPassword: string): Promise<boolean> {
+        const passwordMatch = await Cryptography.comparePassword(password, currentPassword);
         if (!passwordMatch) {
             throw new Unauthorized(['Invalid credentials']);
         }
@@ -39,7 +39,7 @@ export class UserAuthService implements IUserAuthService{
         return true;
     }
 
-	private generateToken(user: User): UserAuthToken {        
+    private generateToken(user: User): UserAuthToken {
         const token = sign(user.jsonSerialize(), process.env.APP_SECRET as string, {
             subject: user.id.getId?.toString(),
             expiresIn: "3h",

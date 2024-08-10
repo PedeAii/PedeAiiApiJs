@@ -1,3 +1,3 @@
 import { Datetime } from "./datetime";
 
-export class DeletedAt extends Datetime {}
+export class DeletedAt extends Datetime { }

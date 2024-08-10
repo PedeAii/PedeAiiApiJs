@@ -1,12 +1,12 @@
 import { UnprocessableEntity } from "../../../../../../Kernel/Http/UnprocessableEntity";
 
 export class UserStatus {
+    public static readonly ACTIVE = 'ACTIVE';
+    public static readonly INACTIVE = 'INACTIVE';
+
     constructor(private readonly status: string) {
         this.getStatus();
     }
-
-    public static readonly ACTIVE = 'ACTIVE';
-    public static readonly INACTIVE = 'INACTIVE';
 
     public getStatus(): string {
         switch (this.status) {
