@@ -9,7 +9,7 @@ export class UserAuthController {
     // if (!user) {
       // return res.status(401).json({ error: "User or password invalid" });
     // }
-
+// teste welliton dia 10/08/2024 //
     next();
   }
 }
