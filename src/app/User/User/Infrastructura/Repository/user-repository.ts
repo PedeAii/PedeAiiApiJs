@@ -2,10 +2,12 @@ import { Database } from "../../../../../../Kernel/Database/Knex"
 import { CreatedAt } from "../../../../../utils/Date/created-at";
 import { DeletedAt } from "../../../../../utils/Date/deleted-at";
 import { UpdatedAt } from "../../../../../utils/Date/updated-at";
+import { Cpf } from "../../../../../utils/Entity/cpf";
 import { AddressId } from "../../../../Address/Domain/Entity/address-id";
 import { RoleId } from "../../../Profile/Role/Domain/Entity/role-id";
 import { User } from "../../Domain/Entity/user";
 import { UserId } from "../../Domain/Entity/user-id";
+import { UserStatus } from "../../Domain/Entity/user-status";
 import { IUserRepository } from "./i-user-repository";
 
 export class UserRepository extends Database implements IUserRepository {
@@ -35,9 +37,9 @@ export class UserRepository extends Database implements IUserRepository {
             result.username ?? null,
             result.email ?? null,
             result.password ?? null,
-            result.phone,
-            result.document,
-            result.status,
+            result.phone ?? null,
+            new Cpf(result.document),
+            new UserStatus(result.status),
             new CreatedAt(result.created_at),
             new UpdatedAt(result.updated_at),
             new DeletedAt(result.deleted_at)

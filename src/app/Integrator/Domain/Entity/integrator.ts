@@ -15,7 +15,7 @@ export class Integrator {
         this.integratorVelidate();
     }
 
-    public integratorVelidate() {
+    private integratorVelidate() {
         let errors = [];
         
         if (empty(this.username)) {
