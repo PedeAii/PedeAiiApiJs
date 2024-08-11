@@ -2,7 +2,7 @@ import { UnprocessableEntity } from "../../../../../Kernel/Http/UnprocessableEnt
 import { IntegratorAuthDTO } from "../../../../../src/app/Integrator/Controller/dto/integrator-auth-dto";
 import { IntegratorService } from "../../../../../src/app/Integrator/Domain/Service/integrator-service";
 
-let integratorService: IntegratorService
+const integratorService: IntegratorService;
 
 describe('IntegratorService', () => {
     beforeEach(() => {
