@@ -3,4 +3,4 @@ import { PermissionCollection } from "../../Domain/Entity/permission-collection"
 
 export interface IPermissionRepository {
     getPermissionsByRoleId(roleId: RoleId): Promise<PermissionCollection | null>
-}
+};
