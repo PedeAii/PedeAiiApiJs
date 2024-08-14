@@ -1,3 +1,4 @@
+import { sign } from 'jsonwebtoken';
 import { randomBytes, scrypt, timingSafeEqual } from 'node:crypto';
 
 export class Cryptography {
@@ -50,5 +51,9 @@ export class Cryptography {
     const randomness = randomBytes(10).toString('hex');
 
     return `${timestamp}${randomness}`;
+  }
+
+  public static jwtEncoded(value: string) {
+    return sign(value, process.env.APP_SECRET as string)
   }
 };
