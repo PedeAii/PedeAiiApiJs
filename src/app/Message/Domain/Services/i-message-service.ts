@@ -1,6 +1,6 @@
-import { TextMessagesEntity } from "../../Domain/Entity/TextMessageEntity";
+import { TextMessagesEntity } from "../Entity/text-message-entity";
 
-export interface ITextMessagesRepository {
+export interface IMessageService {
     create(message: TextMessagesEntity): Promise<TextMessagesEntity>;
 
     getMessages(): Promise<TextMessagesEntity[]>;
@@ -8,6 +8,4 @@ export interface ITextMessagesRepository {
     getMessagesById(id: string): Promise<TextMessagesEntity>;
 
     update(id: string, message: Partial<TextMessagesEntity>): Promise<TextMessagesEntity>;
-
-    delete(ulid: string): Promise<void>
 }

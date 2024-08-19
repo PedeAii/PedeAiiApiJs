@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import { TextMessagesEntity } from "../Entity/TextMessageEntity";
-import { ITextMessagesRepository } from "../../Infrastructure/Repositories/ITextMessageRepository";
+import { TextMessagesEntity } from "../Entity/text-message-entity";
+import { ITextMessagesRepository } from "../../Infrastructure/Repositories/i-text-message-repository";
 
 @injectable()
 export class MessageService implements ITextMessagesRepository {
