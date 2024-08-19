@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { IMessageService } from "../Domain/Services/i-message-service";
 import { inject, injectable } from "inversify";
-import { TextMessagesRepository } from "../Infrastructure/Repositories/TextMessagesRepository";
+import { TextMessagesRepository } from "../Infrastructure/Repositories/text-messages-repository";
 
 @injectable()
 export class MessageController {
