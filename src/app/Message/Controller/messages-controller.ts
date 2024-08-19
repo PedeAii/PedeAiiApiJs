@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IMessageService } from "../Domain/Services/IMessageService";
+import { IMessageService } from "../Domain/Services/i-message-service";
 import { inject, injectable } from "inversify";
 import { TextMessagesRepository } from "../Infrastructure/Repositories/TextMessagesRepository";
 

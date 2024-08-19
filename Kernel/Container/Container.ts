@@ -1,5 +1,5 @@
 import { Container } from "inversify";
-import { IMessageService } from "../../src/app/Message/Domain/Services/IMessageService";
+import { IMessageService } from "../../src/app/Message/Domain/Services/i-message-service";
 import { MessageService } from "../../src/app/Message/Domain/Services/MessageService";
 import { ITextMessagesRepository } from "../../src/app/Message/Infrastructure/Repositories/ITextMessageRepository";
 import { TextMessagesRepository } from "../../src/app/Message/Infrastructure/Repositories/TextMessagesRepository";
