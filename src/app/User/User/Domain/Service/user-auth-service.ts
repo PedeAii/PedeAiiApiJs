@@ -1,38 +1,50 @@
-import * as jwt from 'jsonwebtoken';
 import { Cryptography } from '../../../../../utils/Cryptography/Cryptography.js'
+import { inject, injectable } from 'inversify';
+import { UserAuthDto } from '../../Controller/dto/user-auth-dto.js';
+import { IUserRepository } from '../../Infrastructura/Repository/i-user-repository.js';
+import { User } from '../Entity/user.js';
+import { UnprocessableEntity } from '../../../../../../Kernel/Http/UnprocessableEntity.js';
+import { Unauthorized } from '../../../../../../Kernel/Http/Unauthorized.js';
+import { sign } from 'jsonwebtoken';
+import { IUserAuthService } from './i-user-auth-service.js';
+import { UserAuthToken } from '../Entity/user-auth-token.js';
 
-export class AuthUserService {
-  // async execute(email: string, password: string) {
-  //   const user = await User.findOne({ email });
+@injectable()
+export class UserAuthService implements IUserAuthService {
+    constructor(
+        @inject('IUserRepository') private readonly userRepository: IUserRepository
+    ) { }
 
-  //   if (!user) {
-  //     throw new Error("User or password invalid");
-  //   }
-  //   const passwordMatch = await Cryptography.comparePassword(password, user.password);
+    async auth(userAuthDto: UserAuthDto): Promise<UserAuthToken> {
+        if (!userAuthDto.email || !userAuthDto.password) {
+            throw new UnprocessableEntity(['Invalid credentials'])
+        }
 
-  //   if (!passwordMatch) {
-  //     throw new Error("User or password invalid");
-  //   }
+        const currentUser = await this.userRepository.getByEmail(userAuthDto.email)
+        if (!currentUser) {
+            throw new UnprocessableEntity(['Invalid credentials'])
+        }
 
-  //   const payload = {
-  //     name: user.name,
-  //     email: user.email,
-  //     id: user.id
-  //   };
+        await this.compareAuthentication(userAuthDto.password, currentUser.password)
 
-  //   const options = {
-  //     subject: user.id,
-  //     expiresIn: '1d'
-  //   };
+        return this.generateToken(currentUser);
+    }
 
-  //   const token = jwt.sign(payload, 'JWT_SCRET', options);
+    private async compareAuthentication(password: string, currentPassword: string): Promise<boolean> {
+        const passwordMatch = await Cryptography.comparePassword(password, currentPassword);
+        if (!passwordMatch) {
+            throw new Unauthorized(['Invalid credentials']);
+        }
 
-  //   return {
-  //     id: user.id,
-  //     name: user.name,
-  //     email: user.email,
-  //     token
-  //   }
-  // }
+        return true;
+    }
+
+    private generateToken(user: User): UserAuthToken {
+        const token = sign(user.jsonSerialize(), process.env.APP_SECRET as string, {
+            subject: user.id.getId?.toString(),
+            expiresIn: "3h",
+        });
+
+        return new UserAuthToken(token);
+    }
 }
-

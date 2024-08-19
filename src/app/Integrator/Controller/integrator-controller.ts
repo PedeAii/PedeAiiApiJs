@@ -20,6 +20,6 @@ export class IntegratorController {
         
         const success = new Success({ 'token': output });
 
-        return res.status(200).json(success.render());
+        return res.json(success.render());
     }
 }
