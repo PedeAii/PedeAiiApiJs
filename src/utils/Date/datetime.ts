@@ -6,7 +6,7 @@ export class Datetime {
     }
 
     public toBrazilian(): string {
-        return this.date.format('DD-MM-YYYY HH:mm:ss');
+        return this.formatDate('DD-MM-YYYY hh:mm:ss');
     }
 
     public toDatabase(): string {

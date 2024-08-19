@@ -1,6 +1,5 @@
-
-import { sign } from "jsonwebtoken";
-import { randomBytes, scrypt, timingSafeEqual } from "node:crypto";
+import { sign } from 'jsonwebtoken';
+import { randomBytes, scrypt, timingSafeEqual } from 'node:crypto';
 
 export class Cryptography {
     private static timestamp = Date.now() / 1000;
