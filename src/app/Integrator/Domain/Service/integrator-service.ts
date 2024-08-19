@@ -17,7 +17,7 @@ export class IntegratorService {
         this.integratorRepository = new IntegratorRepository()
     }
 
-    async auth(integratorAuthDTO: IntegratorAuthDTO): Promise<string> {        
+    async auth(integratorAuthDTO: IntegratorAuthDTO): Promise<string> {
         const integrator = new Integrator(
             new IntegratorId(),
             integratorAuthDTO.username as string,
@@ -25,14 +25,14 @@ export class IntegratorService {
             new CreatedAt(),
             new UpdatedAt()
         );
-        
+
         const currentIntegrator = await this.getByUsername(integrator.username);
         if (!currentIntegrator) {
             throw new Unauthorized(['Invalid credentials']);
         }
 
         await this.compareAuthentication(integrator, currentIntegrator);
-        
+
         return this.generateToken(currentIntegrator);
     }
 
@@ -40,7 +40,7 @@ export class IntegratorService {
         return await this.integratorRepository.getByUsername(username);
     }
 
-    private async compareAuthentication(integrator: Integrator, currentIntegrator: Integrator): Promise<boolean> {       
+    private async compareAuthentication(integrator: Integrator, currentIntegrator: Integrator): Promise<boolean> {
         const passwordMatch = await Cryptography.comparePassword(integrator.password, currentIntegrator.password);
 
         if (!passwordMatch) {
@@ -50,7 +50,7 @@ export class IntegratorService {
         return true;
     }
 
-    private generateToken(integrator: Integrator): string {        
+    private generateToken(integrator: Integrator): string {
         const token = sign({}, process.env.APP_SECRET as string, {
             subject: integrator.id.getId?.toString(),
             expiresIn: "3h",
