@@ -12,10 +12,10 @@ export class Integrator {
         public readonly createdAt: CreatedAt,
         public readonly updatedAt: UpdatedAt
     ) {
-        this.integratorVelidate();
+        this.integratorValidate();
     }
 
-    private integratorVelidate() {
+    private integratorValidate() {
         let errors = [];
         
         if (empty(this.username)) {
