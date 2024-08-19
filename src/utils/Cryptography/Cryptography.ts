@@ -42,18 +42,18 @@ export class Cryptography {
         return timingSafeEqual(hashedBuffer, keyBuffer);
     }
 
-    /**
-     * @description generate ulid
-     * @returns string
-     */
-    public static ulid(): string {
-        const timestamp = Math.floor(this.timestamp).toString(36);
-        const randomness = randomBytes(10).toString("hex");
+  /**
+   * @description generate ulid
+   * @returns string
+   */
+  public static ulid(): string {
+    const timestamp = Math.floor(this.timestamp).toString(36);
+    const randomness = randomBytes(10).toString('hex');
 
-        return `${timestamp}${randomness}`;
-    }
+    return `${timestamp}${randomness}`;
+  }
 
-    public static jwtEncoded(value: string) {
-        return sign(value, process.env.APP_SECRET as string)
-    }
+  public static jwtEncoded(value: string) {
+    return sign(value, process.env.APP_SECRET as string)
+  }
 }
