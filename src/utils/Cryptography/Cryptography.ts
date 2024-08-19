@@ -56,4 +56,4 @@ export class Cryptography {
   public static jwtEncoded(value: string) {
     return sign(value, process.env.APP_SECRET as string)
   }
-};
+}

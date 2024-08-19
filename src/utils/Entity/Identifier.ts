@@ -2,14 +2,14 @@ import { Cryptography } from "../Cryptography/Cryptography";
 
 export class Identifier {
 
-    private id: string|null;
+    private id?: string|null;
 
-    constructor(id: string|null) {
+    constructor(id?: string|null) {
         this.id = id;
     }
 
     public get getId() : string|null {
-        return this.id;
+        return this.id ?? null;
     }
 
     public get getIdEncoded() : string|null {
