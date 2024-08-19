@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { TextMessagesEntity } from "../Entity/TextMessageEntity";
+import { TextMessagesEntity } from "../Entity/text-message-entity";
 import { ITextMessagesRepository } from "../../Infrastructure/Repositories/ITextMessageRepository";
 
 @injectable()

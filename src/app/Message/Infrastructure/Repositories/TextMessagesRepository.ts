@@ -1,5 +1,5 @@
 import { Database } from "../../../../../Kernel/Database/Knex";
-import { TextMessagesEntity } from "../../../Message/Domain/Entity/TextMessageEntity";
+import { TextMessagesEntity } from "../../Domain/Entity/text-message-entity";
 import { Cryptography } from "../../../../utils/Cryptography/Cryptography";
 import { ITextMessagesRepository } from "./ITextMessageRepository";
 import { injectable } from "inversify";

@@ -1,4 +1,4 @@
-import { TextMessagesEntity } from "../../Domain/Entity/TextMessageEntity";
+import { TextMessagesEntity } from "../../Domain/Entity/text-message-entity";
 
 export interface ITextMessagesRepository {
     create(message: TextMessagesEntity): Promise<TextMessagesEntity>;

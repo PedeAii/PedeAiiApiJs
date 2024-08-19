@@ -1,4 +1,4 @@
-import { TextMessagesEntity } from "../Entity/TextMessageEntity";
+import { TextMessagesEntity } from "../Entity/text-message-entity";
 
 export interface IMessageService {
     create(message: TextMessagesEntity): Promise<TextMessagesEntity>;
