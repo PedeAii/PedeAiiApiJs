@@ -1,4 +1,8 @@
 .env
 node_modules
 .docker/dbdata
-dist
+Kernel
+./src
+tests
+index.ts
+knexfile.ts

@@ -1,25 +1,23 @@
-export class Datetime {
-    private date: Date;
-
-    constructor(datetime?: string) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Datetime = void 0;
+class Datetime {
+    date;
+    constructor(datetime) {
         this.date = datetime ? new Date(datetime) : new Date();
     }
-
-    public addHours(hours: number): this {
+    addHours(hours) {
         this.date.setHours(this.date.getHours() + hours);
         return this;
     }
-
-    public toBrazilian(): string {
+    toBrazilian() {
         return this.formatDate('DD-MM-YYYY hh:mm:ss');
     }
-
-    public toDatabase(): string {
+    toDatabase() {
         return this.formatDate('YYYY-MM-DD hh:mm:ss');
     }
-
-    private formatDate(format: string): string {
-        const options: Intl.DateTimeFormatOptions = {
+    formatDate(format) {
+        const options = {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
@@ -28,14 +26,12 @@ export class Datetime {
             second: '2-digit',
             hour12: false
         };
-
         const parts = new Intl.DateTimeFormat('en-US', options)
             .formatToParts(this.date)
             .reduce((acc, part) => {
-                acc[part.type] = part.value;
-                return acc;
-            }, {} as Record<string, string>);
-
+            acc[part.type] = part.value;
+            return acc;
+        }, {});
         return format
             .replace('DD', parts.day)
             .replace('MM', parts.month)
@@ -44,11 +40,12 @@ export class Datetime {
             .replace('mm', parts.minute)
             .replace('ss', parts.second);
     }
-
-    public jsonSerialize(): Object {
+    jsonSerialize() {
         return {
             'br': this.toBrazilian(),
             'us': this.toDatabase()
-        }
+        };
     }
 }
+exports.Datetime = Datetime;
+//# sourceMappingURL=datetime.js.map

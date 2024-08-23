@@ -1,18 +1,18 @@
-import moment, { Moment } from "moment";
+import { Datetime } from "../../../../../utils/Date/datetime";
 
 export class UserAuthToken {
-    public expirationDate: Moment
+    public expirationDate: Datetime
 
     constructor(
         public readonly token: string,
     ) {
-        this.expirationDate = moment().add(3, 'hours')
+        this.expirationDate = new Datetime().addHours(3);
     }
 
     public jsonSerialize(): Object {
         return {
-            'token': this.token,
-            'expirationDate':  this.expirationDate.format('YYYY-MM-DD HH:mm:ss')
+            token: this.token,
+            expirationDate: this.expirationDate.toDatabase()
         }
     }
 }
